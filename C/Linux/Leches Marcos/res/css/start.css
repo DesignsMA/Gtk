@@ -1,0 +1,514 @@
+/* ===== FUENTES - FORMATO GTK ===== */
+
+
+/* ===== CLASES DE PESO DE FUENTE ===== */
+
+.thin-text {
+    font-family: 'Montserrat';
+    font-weight: 100;
+}
+
+.extra-light-text {
+    font-family: 'Montserrat';
+    font-weight: 200;
+}
+
+.light-text {
+    font-family: 'Montserrat';
+    font-weight: 300;
+}
+
+.regular-text {
+    font-family: 'Montserrat';
+    font-weight: 400;
+}
+
+.medium-text {
+    font-family: 'Montserrat';
+    font-weight: 500;
+}
+
+.semi-bold-text {
+    font-family: 'Montserrat';
+    font-weight: 600;
+}
+
+.bold-text {
+    font-family: 'Montserrat';
+    font-weight: 700;
+}
+
+.extra-bold-text {
+    font-family: 'Montserrat';
+    font-weight: 800;
+}
+
+.black-text {
+    font-family: 'Montserrat';
+    font-weight: 900;
+}
+
+/* ===== ESTILOS GENERALES ===== */
+
+window {
+    background-color: #ffffff;
+    padding: 0;
+}
+
+/* Header bar con imagen de fondo */
+headerbar {
+    background-image: linear-gradient(0deg,rgba(0, 0, 0, 0.66) 0%, rgba(0, 0, 0, 0.137) 63%, rgba(0, 0, 0, 0) 100%),
+                      url("resource:///res/images/bar.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    color: white;
+    border: none;
+    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.205);
+    min-height: 30px;
+    padding: 0.5rem;
+}
+
+.header-button {
+    background: none;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin-left: 5rem;
+    box-shadow: none;
+    transition: all 0.3s ease;
+}
+
+.header-button > image{
+    /* Eliminar márgenes y padding internos */
+    -gtk-icon-transform: scale(2.2);
+    /* Asegurar que no hay espacios alrededor */
+    border: none;
+    background: none;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    transition: all 0.3s ease;
+    }
+
+.header-button:hover > image {
+    -gtk-icon-transform: scale(2.3);
+}
+
+/* También ajustar el box que contiene el icono */
+#center_content {
+    margin: 0;
+    padding: 0;
+}
+
+.header-search {
+    background: #0000007e;
+    border: 1px solid #ffffff;
+    border-radius: 10px;
+    min-height: 25px;
+    color: #ffffff;
+    outline: none;
+    box-shadow: 0 0px 30px rgba(0, 0, 0, 0.336);
+    transition: all 0.3s ease;
+}
+
+.header-search > image {
+    color: #ffffff;
+}
+
+.header-search:hover, .header-search:focus{
+    background: rgb(255, 255, 255);
+    outline: none;
+    color: #363636;
+    box-shadow: 0 0px 20px rgba(0, 255, 0, 0.185);
+    border: 1px solid #00ff37;
+    transform: scale(1.02);
+}
+
+.header-search:hover > image, .header-search:focus > image {
+    color: #363636;
+}
+
+button.icon-button {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 20px;
+}
+
+button.icon-button:hover {
+    background-color: #0000007e;
+}
+
+button.icon-button > image {
+    color: white;
+    background-color: transparent;
+    -gtk-icon-size: 25px;
+    padding: 0;
+    margin: 0;
+    transition: all 0.3s ease;
+}
+
+button.icon-button:active > image {
+    -gtk-icon-transform: scale(0.7);
+}
+
+
+
+.header-separator {
+    background-color: rgb(255, 255, 255);
+    min-width: 2px;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    border-radius: 1px;
+}
+
+headerbar button.icon-button,
+.titlebar button.icon-button {
+    background: none;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+    min-width: 25px;
+    min-height: 25px;
+    border-radius: 20px;
+}
+
+/* hover forzado dentro del HeaderBar */
+headerbar button.icon-button:hover,
+.titlebar button.icon-button:hover {
+    background-color: #0000007e;
+}
+
+/* Botones de título (min, max, close) */
+windowcontrols button {
+    background-color: rgba(255, 255, 255, 0);
+    min-width: 25px;
+    min-height: 25px;
+    border-radius: 20px;
+    padding: 0;
+    margin: 0;
+    box-shadow: 0 0px 20px rgba(0, 0, 0, 0.336);
+    transition: all 0.3s ease;
+}
+
+windowcontrols button:hover {
+    background-color: #0000007e;
+}
+
+windowcontrols button:nth-child(3):hover {
+    background-color: #ff2e2e;
+    border-radius: 5px;
+    box-shadow: 0 0px 20px rgba(255, 11, 11, 0.74);
+}
+
+
+windowcontrols button > image {
+    color: white;
+    -gtk-icon-size: 25px;
+    padding: 0;
+    margin: 0;
+}
+
+.category-button {
+    background: none;
+    background-color: transparent;
+    font-family: 'Montserrat';
+    font-size: 1rem;
+    font-weight: 900;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+    border: none;
+    color: white;
+    transition: all 0.3s ease;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}   
+
+.category-button:hover {
+    color: #55ff7a;
+    text-shadow: 0 0px 20px rgba(0, 255, 0, 0.185);
+}
+
+.category-button:active {
+    color: #00ff37;
+    font-size: 1.1rem;
+    text-shadow: 0 0px 20px rgba(0, 255, 0, 0.185);
+}
+
+.primary-button {
+    background-color: #ffffff;
+    background-image: none;
+    color: #252525;
+    border: none;
+    border-radius: 50px;
+    padding: 1rem;
+    margin-top: 3rem;
+    font-family: 'Montserrat';
+    font-weight: 900;
+    font-size: 1rem;
+    box-shadow: 0 0px 20px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+}
+
+.primary-button:hover {
+    box-shadow: 0 0px 20px rgba(0, 255, 0, 0.185);
+    background-image: none;
+    transform: scale(1.02);
+    background-color: #55ff7a;
+    color: #ffffff;
+    text-shadow: 0 0px 7px rgba(0, 0, 0, 0.4);
+}
+
+.primary-button:active {
+    background-color: #00cc2e;
+    color: #ffffff;
+    box-shadow: 0 0px 20px rgba(0, 204, 46, 0.185);
+    transform: scale(0.99);
+}
+
+.welcome-title {
+    color: white;
+    font-family: 'Montserrat';
+    font-size: 5rem;
+    font-weight: 900;
+    text-shadow: 0 0px 20px rgba(0, 0, 0, 0.4);
+}
+
+.welcome-description {
+    color: white;
+    font-family: 'Montserrat';
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-top: 1rem;
+    margin-left: 2rem;
+    text-shadow: 0 0px 8px rgba(0, 0, 0, 0.6);
+}
+
+.featured-title {
+    color: #252525;
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.featured-description {
+    color: #505050;
+    font-size: 0.8rem;
+    margin-bottom: 2rem;
+}
+
+/* Panel de productos */
+.products-filter {
+    border: none;
+    border-radius: 0px;
+    padding: 1rem;
+}
+
+.products-filter > :first-child {
+    font-family: 'Montserrat';
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #252525;
+}
+
+.products-view {
+    border: none;
+    border-radius: 0px;
+}
+
+.products-label {
+    font-family: 'Montserrat';
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #252525;
+    margin-bottom: 7px;
+}
+
+.products-box {
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    padding: 1rem;
+}
+
+#products_stack {
+    padding: 1rem;
+}
+
+.panel-separator {
+    min-height: 3px;
+    background-color: #16d13f;
+    box-shadow: 0 0px 10px rgba(25, 255, 25, 0.473);
+    border-radius: 1px;
+    margin: 1rem 0;
+    padding: 0;
+}
+
+
+/* ===== FIN DE start.css ===== */
+/* Cards */
+/* Minicard y card */
+.product-card {
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.151);
+    border: none;
+    padding: 1rem;
+    margin: 1rem;
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+}
+.product-card:hover {
+    transform: scale(1.007);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.087);
+}
+
+.card-image {
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.card-image:hover {
+    transform: scale(1.03);
+}
+
+.card-image:active {
+    transform: scale(0.97);
+}
+
+.card_subcategory {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.5rem;
+    font-weight: 200;
+    color: #505050;
+}
+
+.card-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #252525;
+}
+
+.card-title:hover {
+    color: #494949;   
+}
+
+.card-title:active {
+    color: #00cc2e; 
+}
+
+.card-price {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 900;
+    color: #00cc2e;
+    margin-left: 0.6rem;
+}
+
+button.card-icon-button {
+    background-color: transparent;
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin-top: 1rem;
+    border-radius: 20px;
+}
+
+button.card-icon-button > image {
+    background-color: transparent;
+    -gtk-icon-size: 40px;
+    padding: 0;
+    margin: 0;
+    transition: all 0.3s ease;
+}
+
+button.card-icon-button:hover > image {
+    background: none;
+    background-color: transparent;
+    -gtk-icon-transform: scale(1.1);
+}
+
+
+button.card-icon-button:active > image {
+    background: none;
+    background-color: transparent;
+    -gtk-icon-transform: scale(0.7);
+}
+
+/* Card */
+.card-button {
+    background-color: #ffffff;
+    background-image: none;
+    color: #252525;
+    border: none;
+    border-radius: 5px;
+    padding: 1rem 0.3rem;
+    font-family: 'Montserrat';
+    font-weight: 900;
+    font-size: 0.85rem;
+    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.068);
+    transition: all 0.3s ease;
+}
+
+.card-button:hover {
+    box-shadow: 0 0px 20px rgba(0, 255, 0, 0.185);
+    background-image: none;
+    transform: scale(1.01);
+    background-color: #55ff7a;
+    color: #ffffff;
+    text-shadow: 0 0px 12px rgba(0, 0, 0, 0.4);
+}
+
+.card-button:active {
+    background-color: #00cc2e;
+    color: #ffffff;
+    text-shadow: 0 0px 12px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0px 20px rgba(0, 204, 46, 0.185);
+    transform: scale(0.99);
+}
+
+.card-price-large {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #00cc2e;
+}
+
+
+.filter-category-label {
+    font-family: 'Montserrat';
+    font-size: 1rem;
+    font-weight: 700;
+    color: #252525;
+}
+
+.filter-checkbutton > label {
+    font-family: 'Montserrat';
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: #252525;
+}
+
+.filter-checkbutton > check {
+    padding: 2px;
+    transition: all 0.2s ease;
+}
+
+.filter-checkbutton:checked > check {
+    background-image: linear-gradient(127deg,rgba(0, 165, 38, 1) 0%, rgba(0, 204, 46, 1) 100%);
+    box-shadow: 0 0px 20px rgba(70, 255, 3, 0.546);
+}
+
+
+
+
+

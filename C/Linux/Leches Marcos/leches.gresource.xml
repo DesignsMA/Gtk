@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/">
+    <file compressed="true">res/ui/start.ui</file>
+    <file compressed="true">res/ui/minicard.ui</file>
+    <file compressed="true">res/ui/card.ui</file>
+    <file compressed="true" alias="start.css">res/css/start.css</file>
+    <file>res/fonts/BebasNeue.ttf</file>
+    <file>res/fonts/Montserrat.ttf</file>
+    <file compressed="true">res/images/logo.svg</file>    
+    <file>res/images/bar.png</file>
+    <file compressed="true">res/images/bg.jpg</file>
+    <file compressed="true">res/images/placehgolde.png</file>
+  </gresource>
+
+  <gresource prefix="/data/icons/scalable/actions">
+    <file alias="leche-cart-add-symbolic.svg">icons/cart-add-symbolic.svg</file>
+    <file alias="leche-cart-add-light-symbolic.svg">icons/cart-add-light-symbolic.svg</file>
+    <file alias="leche-cart-remove-symbolic.svg">icons/cart-remove-symbolic.svg</file>
+    <file alias="leche-cart-symbolic.svg">icons/cart-symbolic.svg</file>
+  </gresource>
+</gresources>

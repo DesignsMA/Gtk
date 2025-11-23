@@ -1,0 +1,27 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build GTK4 C file",
+            "type": "shell",
+            "command": "gcc $(pkg-config --cflags gtk4) -o \"${fileBasenameNoExtension}\" \"${file}\" $(pkg-config --libs gtk4)",
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "detail": "Compile the active C file with GTK4 using pkg-config"
+        }
+    ]
+}

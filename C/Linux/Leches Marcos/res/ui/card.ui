@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+
+  <object class="GtkFrame" id="card">
+    <property name="halign">fill</property>
+    <property name="height-request">350</property>
+    <style>
+      <class name="product-card"/>
+    </style>
+
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">horizontal</property>
+        <property name="spacing">8</property>
+
+        <child>
+          <object class="GtkPicture" id="card_image">
+            <property name="width-request">250</property>
+            <property name="height-request">300</property>
+            <property name="content-fit">scale-down</property>
+            <property name="halign">start</property>
+            <property name="valign">center</property>
+
+            <property name="file"></property>
+            <style>
+              <class name="card-image"/>
+            </style>
+            <child>
+              <object class="GtkGestureClick" id="image_gesture">
+                <signal name="pressed" handler="ver_detalles_cb" swapped="no"/>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkGrid" id="card_grid">
+            <property name="valign">center</property>
+            <property name="hexpand">true</property>
+            <property name="halign">fill</property>
+            <property name="column-spacing">12</property>
+            <child>
+              <object class="GtkLabel" id="card_subcategory">
+                <property name="halign">start</property>
+                <property name="hexpand">true</property>
+                <property name="valign">end</property>
+                <property name="justify">left</property>
+                <style>
+                  <class name="card-subcategory"/>
+                </style>
+                <property name="label">Subcategoría</property>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="row">0</property>
+                </layout>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkLabel" id="card_title">
+                <property name="halign">start</property>
+                <property name="hexpand">true</property>
+                <property name="valign">start</property>
+                <property name="justify">left</property>
+                <property name="wrap">true</property>
+                <property name="wrap-mode">word-char</property>
+                <property name="max-width-chars">20</property>
+                <style>
+                  <class name="card-title"/>
+                </style>
+                <property name="label">Nombre del producto</property>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="row">1</property>
+                </layout>
+
+                <child>
+                  <object class="GtkGestureClick" id="title_gesture">
+                    <signal name="pressed" handler="ver_detalles_cb" swapped="no"/>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkLabel" id="card_description">
+                <property name="halign">start</property>
+                <property name="hexpand">true</property>
+                <property name="valign">center</property>
+                <property name="justify">left</property>
+                <property name="wrap">true</property>
+                <property name="wrap-mode">word-char</property>
+                <style>
+                  <class name="card-description"/>
+                </style>
+                <property name="label">Descripción detallada del producto, lorem ipsum docet, riptum</property>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="row">2</property>
+                </layout>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkLabel" id="card_price">
+                <property name="halign">end</property>
+                <property name="valign">center</property>
+                <property name="justify">center</property>
+                <style>
+                  <class name="card-price-large"/>
+                </style>
+                <property name="label">$0.00</property>
+                <layout>
+                  <property name="column">1</property>
+                  <property name="row">0</property>
+                </layout>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton" id="card_button">
+                <property name="halign">end</property>
+                <property name="valign">center</property>
+                <property name="can-focus">false</property>
+                <property name="receives-default">false</property>
+                <layout>
+                  <property name="column">1</property>
+                  <property name="row">2</property>
+                </layout>
+                <signal name="clicked" handler="card_button_clicked" swapped="no" />
+                <style>
+                    <class name="card-button"/>
+                </style>
+
+                <child>
+                    <object class="GtkBox">
+                        <property name="orientation">horizontal</property>
+                        <property name="spacing">3</property>
+                        <child>
+                            <object class="GtkImage" id="card_button_icon">
+                                <property name="halign">start</property>
+                                <property name="valign">center</property>
+                                <property name="icon-name">leche-cart-add-symbolic</property>
+                                <property name="pixel-size">30</property>
+                         </object>
+                        </child>
+
+                        <child>
+                            <object class="GtkLabel">
+                                <property name="halign">start</property>
+                                <property name="valign">center</property>
+                                <property name="label">Añadir al carrito</property>
+                                <style>
+                                    <class name="regular-text"/>
+                                </style>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+              </object>
+            </child>
+
+
+          </object>
+        </child>
+
+
+      </object>
+    </child>
+  </object>
+
+</interface>
+   
