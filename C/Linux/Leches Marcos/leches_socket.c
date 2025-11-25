@@ -1,5 +1,7 @@
 #include "leches_socket.h"
 
+SoupSession *image_session = NULL;
+
 int conectar_servidor(int puerto) {
     const char *IP = "127.0.0.1";
     int sock;
@@ -41,7 +43,7 @@ void aplicar_imagen(GObject *source_object, GAsyncResult *res, gpointer user_dat
 
         g_mkdir_with_parents(cache_dir, 0755); // Crear directorio si no existe , tambien los padres si es necesario con permisos rwxr-xr-x
 
-        SoupMessageHeaders *response_headers = soup_message_get_response_headers(SOUP_MESSAGE(source_object));
+        SoupMessageHeaders *response_headers = soup_message_get_response_headers(data->msg);
         
         const char *content_type = soup_message_headers_get_content_type(response_headers, NULL);
         
@@ -80,48 +82,82 @@ void aplicar_imagen(GObject *source_object, GAsyncResult *res, gpointer user_dat
     
     g_free(data->image_url);
     g_free(data->cache_key);
+    g_object_unref(data->msg);
     g_free(data);
 }
 
-    void cargar_imagen(const char* url, GtkPicture *picture) {
-    // Crear estructura para pasar datos al callback
-    SolicitudImagen *data = g_new0(SolicitudImagen, 1); // alojar memoria
-    data->image_url = g_strdup(url); // Copiar URL
-    data->picture = picture; // Guardar puntero al GtkPicture
-
-    // Crear clave única para identificar url usando el algoritmo de hashing MD5
+void cargar_imagen(const char* url, GtkPicture *picture) {
+    SolicitudImagen *data = g_new0(SolicitudImagen, 1);
+    data->image_url = g_strdup(url);
+    data->picture = picture;
     data->cache_key = g_compute_checksum_for_string(G_CHECKSUM_MD5, url, -1);
     
-    // Creamos una ruta  hacia /usr/local/share/cache/leches-cache/<cache_key>
-    char *cache_path = g_build_filename(g_get_user_cache_dir(), "leches-cache", data->cache_key, NULL);
+    // Verificar cache con extensiones
+    const char *extensions[] = {"png", "jpg", "jpeg", "gif", "webp", "img", NULL};
+    char *found_cache_path = NULL;
     
-    // Si esa clave ya existe en el cache significa que ya hemos descargado esa imagen antes
-    if (g_file_test(cache_path, G_FILE_TEST_EXISTS)) {
-        // Carga imagen a un GdkTexture desde el archivo de cache (local)
-        GdkTexture *texture = gdk_texture_new_from_filename(cache_path, NULL); // Cargar textura desde archivo
+    for (int i = 0; extensions[i]; i++) {
+        char *filename = g_strdup_printf("%s.%s", data->cache_key, extensions[i]);
+        char *test_path = g_build_filename(g_get_user_cache_dir(), "leches-cache", filename, NULL);
         
-        if (texture) { // Si no es NULL, cargar la textura en el GtkPicture
-
-            gtk_picture_set_paintable(GTK_PICTURE(picture), GDK_PAINTABLE(texture));
-            g_object_unref(texture);
-
+        if (g_file_test(test_path, G_FILE_TEST_EXISTS)) {
+            found_cache_path = test_path;
+            g_free(filename);
+            break;
         }
-        g_free(cache_path);
-        g_free(data);
-        return; // Retornar, no es necesario descargar la imagen
+        g_free(filename);
+        g_free(test_path);
     }
     
-    g_free(cache_path);
+    // Si encontramos en cache, cargar y salir
+    if (found_cache_path) {
+        GdkTexture *texture = gdk_texture_new_from_filename(found_cache_path, NULL);
+        if (texture) {
+            gtk_picture_set_paintable(GTK_PICTURE(picture), GDK_PAINTABLE(texture));
+            g_object_unref(texture);
+        }
+        g_free(found_cache_path);
+        g_free(data);
+        return;
+    }
     
-    // Crea una nueva sesión de soup
-    SoupSession *session = soup_session_new();
+    // Continuar con descarga
+    if (!image_session) {
+        image_session = soup_session_new();
+    }
 
-    // Crear un nuevo mensaje con una solicitud http GET (obtener) desde la url
     SoupMessage *msg = soup_message_new("GET", url);
     
-    // En la sesión enviar mensaje y leer la respuesta de forma asíncrona
+    // Verificar que el mensaje se creó correctamente
+    if (!msg) {
+        g_warning("No se pudo crear mensaje para URL: %s", url);
+        g_free(data->image_url);
+        g_free(data->cache_key);
+        g_free(data);
+        return;
+    }
+    
+    data->msg = msg;
+    
+    // Verificar que la sesión es válida
+    if (!SOUP_IS_SESSION(image_session)) {
+        g_warning("Sesión de imagen no válida");
+        g_object_unref(msg);
+        g_free(data->image_url);
+        g_free(data->cache_key);
+        g_free(data);
+        return;
+    }
+    
     soup_session_send_and_read_async(
-        session, msg, G_PRIORITY_DEFAULT, NULL, 
-        aplicar_imagen,  // Callback, se ejecuta en el hilo principal al terminar la descarga asincrona
-        data); // Pasar datos al callback, principalmente el apuntador al GtkPicture
+        image_session, msg, G_PRIORITY_DEFAULT, NULL, 
+        aplicar_imagen, 
+        data);
+}
+
+void limpiar_sesion_imagenes() {
+    if (image_session) {
+        g_object_unref(image_session);
+        image_session = NULL;
+    }
 }

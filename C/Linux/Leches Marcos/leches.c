@@ -185,6 +185,9 @@ main (int   argc,
     g_signal_connect (app, "activate", G_CALLBACK (activate), NULL);
 
     int status = g_application_run (G_APPLICATION (app), argc, argv);
+
+    limpiar_sesion_imagenes();
+    g_resources_unregister(res);
     g_object_unref(builder);
     g_object_unref (app);
 
@@ -469,8 +472,6 @@ filtrar_categoria_cb (GtkWidget *widget,
     const char* categoria =  g_object_get_data( G_OBJECT(widget), "categoria");
     gtk_stack_set_visible_child_name(GTK_STACK(main_stack), "products"); // Cambiar a la página de productos
     cambiar_categoria_filtro(categoria);
-
-    g_free((gpointer)categoria);
 }
 
 static void
@@ -542,7 +543,6 @@ static void on_subcategory_toggled(GtkCheckButton *button, gpointer user_data) {
     // Actualizar el filtro
     gtk_filter_changed(GTK_FILTER(filter_state_p->subcategory_filter), GTK_FILTER_CHANGE_DIFFERENT);
 
-    g_free((gpointer)subcategory);
 }
 
 // Función para actualizar los checkboxes de subcategorías

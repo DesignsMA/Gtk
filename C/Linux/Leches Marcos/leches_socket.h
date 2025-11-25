@@ -16,10 +16,15 @@
         char *image_url;
         GtkPicture *picture;
         char *cache_key; // clave para caché
+        SoupMessage *msg; // mensaje de la solicitud
     } SolicitudImagen;
+
+    // Sesión global para todas las imágenes
+    extern SoupSession *image_session;
 
     int conectar_servidor(int puerto);
     void cargar_imagen(const char* url, GtkPicture *picture);
     void aplicar_imagen(GObject *source_object, GAsyncResult *res, gpointer user_data);
+    void limpiar_sesion_imagenes();
 
 #endif // LECHES_SOCKET_H
