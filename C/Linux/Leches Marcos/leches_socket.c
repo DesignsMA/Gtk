@@ -130,7 +130,6 @@ void cargar_imagen(const char* url, GtkPicture *picture) {
     
     // Verificar que el mensaje se creó correctamente
     if (!msg) {
-        g_warning("No se pudo crear mensaje para URL: %s", url);
         g_free(data->image_url);
         g_free(data->cache_key);
         g_free(data);
