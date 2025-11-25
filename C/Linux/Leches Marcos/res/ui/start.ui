@@ -83,24 +83,6 @@
                 </child>
 
                 <child type="end">
-                    <object class="GtkButton" id="user_button">
-                        <property name="can-focus">false</property>
-                        <property name="receives-default">false</property>
-                        <style>
-                            <class name="icon-button"/>
-                        </style>
-
-                        <child>
-                            <object class="GtkImage" id="user_icon">
-                                <property name="icon-name">avatar-default-symbolic</property>
-                                <property name="pixel-size">20</property>
-                            </object>
-                        </child>
-
-                    </object>
-                </child>
-
-                <child type="end">
                     <object class="GtkButton" id="cart_button">
                         <property name="can-focus">false</property>
                         <property name="receives-default">false</property>
@@ -238,13 +220,13 @@ Leches Toño</property>
                                                         </child>
 
                                                         <child>
-                                                            <object class="GtkBox" id="featured_box">
-                                                                <property name="orientation">horizontal</property>
-                                                                <property name="spacing">5</property>
+                                                            <object class="GtkGridView" id="featured_view">
                                                                 <property name="halign">center</property>
-                                                                <!-- Aquí se añadirán los productos destacados dinámicamente -->
+                                                                <property name="hexpand">true</property>
+                                                                <property name="max-columns">4</property>
                                                             </object>
                                                         </child>
+
                                                     </object>
                                         </property>
                                         </object>

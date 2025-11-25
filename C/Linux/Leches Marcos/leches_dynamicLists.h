@@ -51,13 +51,18 @@ extern size_t num_productos;
 // Solo DECLARACIONES con extern
 extern GListStore *store;
 extern GtkNumericSorter *price_sorter;
+extern GtkNumericSorter *stock_sorter;
 extern FilterState filter_state;
 extern GtkFilterListModel *category_filtered_model;
 extern GtkFilterListModel *subcategory_filtered_model;
 extern GtkSortListModel *sorted_model;
+extern GtkSortListModel *stock_sorted_model; // para destacados
+extern GtkSliceListModel *limited;
 extern GtkNoSelection *selection;
+extern GtkNoSelection *selectionstock;
 extern GtkListView *list_view;
 extern GtkGridView *grid_view;
+extern GtkGridView *featured_view;
 extern GtkListItemFactory *card_factory;
 extern GtkListItemFactory *minicard_factory;
 

@@ -255,7 +255,7 @@ windowcontrols button > image {
     font-weight: 900;
     font-size: 1rem;
     box-shadow: 0 0px 20px rgba(0, 0, 0, 0.4);
-    transition: all 0.3s ease;
+    transition: all 0.1s ease;
 }
 
 .primary-button:hover {
@@ -265,13 +265,6 @@ windowcontrols button > image {
     background-color: #55ff7a;
     color: #ffffff;
     text-shadow: 0 0px 7px rgba(0, 0, 0, 0.4);
-}
-
-.primary-button:active {
-    background-color: #00cc2e;
-    color: #ffffff;
-    box-shadow: 0 0px 20px rgba(0, 204, 46, 0.185);
-    transform: scale(0.99);
 }
 
 .welcome-title {
@@ -509,6 +502,65 @@ button.card-icon-button:active > image {
 }
 
 
+.icon-toggle {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 1rem;
+    border-radius: 20px;
+}
+
+.icon-toggle:hover {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.icon-toggle > image {
+    color: #252525;
+    background-color: transparent;
+    -gtk-icon-size: 30px;
+    padding: 0;
+    margin: 0;
+    transition: all 0.3s ease;
+}
+
+.icon-toggle:active {
+    background-image: none;
+    background-color: transparent;
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+
+.icon-toggle:checked {
+    background-image: none;
+    background-color: transparent;
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+
+.icon-toggle:active > image {
+    color: #00cc2e;
+    background-image: none;
+    background-color: transparent;
+    background: none;
+    border: none;
+    box-shadow: none;
+    -gtk-icon-transform: scale(0.95);
+}
+
+
+.icon-toggle:checked > image {
+    background-image: none;
+    background-color: transparent;
+    background: none;
+    border: none;
+    box-shadow: none;
+    color: #00cc2e;
+}
 
 
 

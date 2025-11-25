@@ -60,6 +60,7 @@
     "*.cpp": "cpp",
     "fontconfig.h": "c",
     "gtk.h": "c",
-    "uuid.h": "c"
+    "uuid.h": "c",
+    "leches_socket.h": "c"
   }
 }

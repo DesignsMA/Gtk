@@ -14,6 +14,7 @@ void ver_modo_lista_cb(GtkToggleButton *button, gpointer user_data);
 void ver_modo_grid_cb(GtkToggleButton *button, gpointer user_data);
 void ver_detalles_cb(GtkGestureClick *gesture, int n_press, double x, double y, gpointer user_data);
 static void buscar_producto_cb(GtkSearchEntry *entry, gpointer user_data);
+void añadir_al_carrito_cb(GtkButton *button, gpointer user_data);
 void card_button_clicked(GtkButton *btn, gpointer data);
 static void fabricar_card_productos();
 
@@ -67,6 +68,35 @@ static void load_font_from_resource(const char *resource_path)
     g_bytes_unref(bytes);
 }
 
+static void descargar_datos(GTask *task, gpointer source_object, gpointer task_data, GCancellable *cancellable) {
+    // HILO SECUNDARIO: descargar datos del servidor
+}
+
+// Callback, se ejecuta en el hilo principal cuando termina la funcion del hilo
+static void actualizar_modelo(GObject *source_object, GAsyncResult *res, gpointer user_data) {
+    // HILO PRINCIPAL: actualizar modelo existente
+    /*DatosServidor *nuevos_datos = g_task_propagate_pointer(G_TASK(res), NULL);
+    
+    // Actualizar modelo SIN recargar UI completa
+    g_list_store_remove_all(store);
+    for (int i = 0; i < nuevos_datos->num_productos; i++) {
+        Product *product = product_new(...);
+        g_list_store_append(store, product);
+        g_object_unref(product);
+    }
+        */
+    
+}
+
+static void actualizar_productos() {
+    g_print("Actualizando productos...\n");
+    // Aquí iría la lógica para actualizar los productos desde el servidor
+    // Por ahora, solo imprimimos un mensaje
+    /*
+    GTask *task = g_task_new(NULL, NULL, actualizar_modelo, NULL);
+    g_task_run_in_thread(task, (GTaskThreadFunc)descargar_datos);
+    */
+}
 
 /*#################################### Cargar programa ###################################################*/
 static void
@@ -124,6 +154,9 @@ activate ( GtkApplication *app,
     cargar_filtros(); // Cargar filtros de categorías y subcategorías
 
     gtk_widget_set_visible (GTK_WIDGET (window), TRUE);
+
+    // Cada 30 segundos actualizar productos
+    g_timeout_add_seconds(30, (GSourceFunc)actualizar_productos, NULL);
 }
 
 /*#########################################################################################################*/
@@ -235,6 +268,9 @@ setup_card(GtkListItemFactory *factory, GtkListItem *list_item)
     widgets->price = GTK_LABEL(gtk_builder_get_object(builder, "card_price"));
     widgets->button = GTK_BUTTON(gtk_builder_get_object(builder, "card_button"));
     
+    gtk_picture_set_resource(widgets->image, "/res/images/placeholder.png");
+
+
     // Guardar los widgets en el list_item para usarlos en bind
     // usamos un data full porque hay que liberar la estructura al final de la vida del list_item
     g_object_set_data_full(G_OBJECT(list_item), "card-widgets", widgets, g_free);
@@ -279,10 +315,15 @@ bind_card(GtkListItemFactory *factory, GtkListItem *list_item)
     gtk_label_set_text(widgets->price, price_str);
     
     // Cargar imagen
-    gtk_picture_set_resource(widgets->image, "/res/images/placehgolde.png"); // Placeholder
+    if (img_url) cargar_imagen(img_url, widgets->image);
     
     // Guardar product en el botón para usarlo después
     g_object_set_data(G_OBJECT(widgets->button), "product", product);
+
+    g_free((gpointer)nombre);
+    g_free((gpointer)subcat);
+    g_free((gpointer)descripcion);
+    g_free((gpointer)img_url);
 }
 
 static void
@@ -303,6 +344,8 @@ setup_minicard(GtkListItemFactory *factory, GtkListItem *list_item)
     widgets->price = GTK_LABEL(gtk_builder_get_object(builder, "card_price"));
     widgets->button = GTK_BUTTON(gtk_builder_get_object(builder, "card_button"));
     
+    gtk_picture_set_resource(widgets->image, "/res/images/placeholder.png");
+
     // Guardar los widgets en el list_item para usarlos en bind
     // usamos un data full porque hay que liberar la estructura al final de la vida del list_item
     g_object_set_data_full(G_OBJECT(list_item), "card-widgets", widgets, g_free);
@@ -342,10 +385,15 @@ bind_minicard(GtkListItemFactory *factory, GtkListItem *list_item)
     gtk_label_set_text(widgets->price, price_str);
     
     // Cargar imagen
-    gtk_picture_set_resource(widgets->image, "/res/images/placehgolde.png"); // Placeholder
+    if (img_url) cargar_imagen(img_url, widgets->image);
     
     // Guardar product en el botón para usarlo después
     g_object_set_data(G_OBJECT(widgets->button), "product", product);
+
+    g_free((gpointer)nombre);
+    g_free((gpointer)subcat);
+    g_free((gpointer)img_url);
+
 }
 
 
@@ -374,6 +422,14 @@ static void fabricar_card_productos(GtkBuilder *builder) {
     // no necesitamos seleccionar items en la cuadrícula
     gtk_grid_view_set_model(GTK_GRID_VIEW(grid_view), GTK_SELECTION_MODEL(selection));
     gtk_grid_view_set_single_click_activate(GTK_GRID_VIEW(grid_view), FALSE); // activar con un solo clic
+
+    // Vista de destacados, independiente del pipeline principal
+
+    featured_view = GTK_GRID_VIEW(gtk_builder_get_object(builder, "featured_view"));
+    gtk_grid_view_set_factory(GTK_GRID_VIEW(featured_view), minicard_factory);
+
+    gtk_grid_view_set_model(GTK_GRID_VIEW(featured_view), GTK_SELECTION_MODEL(selectionstock));
+    gtk_grid_view_set_single_click_activate(GTK_GRID_VIEW(featured_view), FALSE); // activar con un solo clic
 }
 
 static void
@@ -413,6 +469,8 @@ filtrar_categoria_cb (GtkWidget *widget,
     const char* categoria =  g_object_get_data( G_OBJECT(widget), "categoria");
     gtk_stack_set_visible_child_name(GTK_STACK(main_stack), "products"); // Cambiar a la página de productos
     cambiar_categoria_filtro(categoria);
+
+    g_free((gpointer)categoria);
 }
 
 static void
@@ -483,6 +541,8 @@ static void on_subcategory_toggled(GtkCheckButton *button, gpointer user_data) {
     
     // Actualizar el filtro
     gtk_filter_changed(GTK_FILTER(filter_state_p->subcategory_filter), GTK_FILTER_CHANGE_DIFFERENT);
+
+    g_free((gpointer)subcategory);
 }
 
 // Función para actualizar los checkboxes de subcategorías
@@ -558,4 +618,18 @@ buscar_producto_cb(GtkSearchEntry *entry, gpointer user_data) {
         gtk_filter_changed(GTK_FILTER(filter_state.search_filter), 
                           GTK_FILTER_CHANGE_DIFFERENT);
     }
+}
+
+// Funciones de carrito de compras
+
+void añadir_al_carrito_cb(GtkButton *button, gpointer user_data) {
+    GObject *product = G_OBJECT(g_object_get_data(G_OBJECT(button), "product")); // Obtener el producto asociado al botón
+    if (product) {
+        const char *nombre = NULL;
+        g_object_get(product, "nombre", &nombre, NULL);
+        g_print("Añadiendo al carrito: %s\n", nombre);
+        // Aquí puedes agregar la lógica para añadir el producto al carrito
+        g_free((gpointer)nombre);
+    }
+    
 }

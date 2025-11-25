@@ -128,7 +128,7 @@
                   <property name="column">1</property>
                   <property name="row">2</property>
                 </layout>
-                <signal name="clicked" handler="card_button_clicked" swapped="no" />
+                <signal name="clicked" handler="añadir_al_carrito_cb" swapped="no" />
                 <style>
                     <class name="card-button"/>
                 </style>

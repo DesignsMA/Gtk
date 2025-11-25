@@ -103,6 +103,9 @@
                   <property name="column">1</property>
                   <property name="row">1</property>
                 </layout>
+                
+                <signal name="clicked" handler="añadir_al_carrito_cb" swapped="no" />
+
                 <style>
                     <class name="card-icon-button"/>
                 </style>

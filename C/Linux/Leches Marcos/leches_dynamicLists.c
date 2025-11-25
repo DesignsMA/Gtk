@@ -1,8 +1,8 @@
 #include "leches_dynamicLists.h"
 // ejemplo
 
-// ARREGLO DE CATEGORÍAS (4 categorías)
-Categoria categorias[4] = {
+// ARREGLO DE CATEGORÍAS (5 categorías)
+Categoria categorias[5] = {
     // CATEGORÍA 1: leches
     {
         .nombre = "leches",
@@ -40,11 +40,20 @@ Categoria categorias[4] = {
             "para batir"
         },
         .num_subcategorias = 1
+    },
+
+    // CATEGORÍA 5: test
+    {
+        .nombre = "test",
+        .subcategorias = {
+            "test"
+        },
+        .num_subcategorias = 1
     }
 };
 
-// ARREGLO DE PRODUCTOS (7 productos)
-Producto productos[7] = {
+// ARREGLO DE PRODUCTOS (8 productos)
+Producto productos[8] = {
 
     // PRODUCTOS DE CATEGORÍA "leches"
     {
@@ -55,7 +64,7 @@ Producto productos[7] = {
         .stock = 100,
         .categoria = "leches",
         .subcategoria = "entera",
-        .imagen_url = "imgs/leche_entera.jpg"
+        .imagen_url = "https://imgur.com/bBuqTi9.png"
     },
     {
         .id = "11",
@@ -65,7 +74,7 @@ Producto productos[7] = {
         .stock = 80,
         .categoria = "leches",
         .subcategoria = "deslactosada",
-        .imagen_url = "imgs/leche_deslactosada.jpg"
+        .imagen_url = ""
     },
     
     // PRODUCTOS DE CATEGORÍA "quesos"
@@ -77,7 +86,7 @@ Producto productos[7] = {
         .stock = 50,
         .categoria = "quesos",
         .subcategoria = "fresco", 
-        .imagen_url = "imgs/queso_fresco.jpg"
+        .imagen_url = ""
     },
     {
         .id = "13",
@@ -87,7 +96,7 @@ Producto productos[7] = {
         .stock = 30,
         .categoria = "quesos",
         .subcategoria = "mozzarella",
-        .imagen_url = "imgs/queso_mozzarella.jpg"
+        .imagen_url = ""
     },
     
     // PRODUCTOS DE CATEGORÍA "yogures"
@@ -99,7 +108,7 @@ Producto productos[7] = {
         .stock = 80,
         .categoria = "yogures",
         .subcategoria = "natural",
-        .imagen_url = "imgs/yogur_natural.jpg"
+        .imagen_url = ""
     },
     {
         .id = "16",
@@ -109,7 +118,7 @@ Producto productos[7] = {
         .stock = 60,
         .categoria = "yogures",
         .subcategoria = "griego",
-        .imagen_url = "imgs/yogur_griego.jpg"
+        .imagen_url = ""
     },
     
     // PRODUCTOS DE CATEGORÍA "cremas"
@@ -121,19 +130,35 @@ Producto productos[7] = {
         .stock = 40,
         .categoria = "cremas",
         .subcategoria = "para batir",
-        .imagen_url = "imgs/crema_batir.jpg"
+        .imagen_url = ""
+    },
+
+    {
+        .id = "18",
+        .nombre = "Test",
+        .descripcion = "Prueba de funcionamiento",
+        .precio = 777.00,
+        .stock = 70,
+        .categoria = "test",
+        .subcategoria = "test",
+        .imagen_url = "https://imgur.com/bc9Zj0Y.png"
     }
 };
 
 GListStore *store = NULL;
 GtkNumericSorter *price_sorter = NULL;
+GtkNumericSorter *stock_sorter = NULL;
 FilterState filter_state = {0};
 GtkFilterListModel *category_filtered_model = NULL;
 GtkFilterListModel *subcategory_filtered_model = NULL;
 GtkSortListModel *sorted_model = NULL;
+GtkSortListModel *stock_sorted_model = NULL;
+GtkSliceListModel *limited = NULL;
 GtkNoSelection *selection = NULL;
+GtkNoSelection *selectionstock = NULL;
 GtkListView *list_view = NULL;
 GtkGridView *grid_view = NULL;
+GtkGridView *featured_view = NULL;
 GtkListItemFactory *card_factory = NULL;
 GtkListItemFactory *minicard_factory = NULL;
 
@@ -179,38 +204,38 @@ void cargar_productos(GObject *category_box, GCallback filtrar_categoria_cb) {
         g_object_unref(product);
     }
 
-    /*Implementacion real 
-    for (int i = 0; i < num_productos; i++) {
-        char categoria_nombre[MAX_CAT_NAME];
-        char subcategoria_nombre[MAX_SUBCAT_NAME];
-        
-        // Obtener los nombres reales de categoría y subcategoría
-        obtener_nombres_categoria_subcategoria(
-            productos[i].categoria_id,
-            productos[i].subcategoria_id,
-            categoria_nombre,
-            subcategoria_nombre
-        );
-        
-        Product *product = product_new(
-            productos[i].id,
-            productos[i].nombre,
-            productos[i].descripcion,
-            productos[i].precio,
-            productos[i].stock,
-            categoria_nombre,           // ← Ahora es el nombre, no el ID
-            subcategoria_nombre,        // ← Ahora es el nombre, no el ID
-            productos[i].imagen_url
-        );
-        g_list_store_append(store, product);
-        g_object_unref(product);
-    }
-    */
-
     // Nuevo ordenador por precio, por defecto ascendente
     price_sorter = gtk_numeric_sorter_new(
         // Indicamos la propiedad "precio" del objeto Producto como expresión a ordenar
         gtk_property_expression_new(PRODUCT_TYPE, NULL, "precio")
+    );
+
+    // Productos destacados (es decir los que no se vendieron bien y queremos que tengan más visibilidad)
+    stock_sorter = gtk_numeric_sorter_new(
+        gtk_property_expression_new(PRODUCT_TYPE, NULL, "stock")
+    );
+    
+    // No tiene intervención en el pipeline, solo es para los destacados
+    stock_sorted_model = gtk_sort_list_model_new(
+        G_LIST_MODEL(store), // modelo base
+        GTK_SORTER(stock_sorter) // ordenador por precio
+    );
+
+    gtk_sort_list_model_set_incremental( // Habilitar ordenamiento incremental
+        stock_sorted_model,
+        TRUE
+    );
+
+    gtk_numeric_sorter_set_sort_order(stock_sorter, GTK_SORT_DESCENDING); // Ordenar de mayor a menor stock
+
+    limited = gtk_slice_list_model_new(
+        G_LIST_MODEL(stock_sorted_model),  // modelo de entrada
+        0,                      // offset = desde el primer item
+        4                       // size = máximo 4 items
+    );
+    
+    selectionstock = gtk_no_selection_new(
+        G_LIST_MODEL(limited)
     );
 
     filter_state.category_filter = 

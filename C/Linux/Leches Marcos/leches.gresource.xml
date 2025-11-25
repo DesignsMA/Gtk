@@ -10,7 +10,7 @@
     <file compressed="true">res/images/logo.svg</file>    
     <file>res/images/bar.png</file>
     <file compressed="true">res/images/bg.jpg</file>
-    <file compressed="true">res/images/placehgolde.png</file>
+    <file compressed="true">res/images/placeholder.png</file>
   </gresource>
 
   <gresource prefix="/data/icons/scalable/actions">
