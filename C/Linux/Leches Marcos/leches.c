@@ -273,6 +273,8 @@ setup_card(GtkListItemFactory *factory, GtkListItem *list_item)
     
     gtk_picture_set_resource(widgets->image, "/res/images/placeholder.png");
 
+    gtk_widget_set_size_request(GTK_WIDGET(widgets->image), 250, 250);
+
 
     // Guardar los widgets en el list_item para usarlos en bind
     // usamos un data full porque hay que liberar la estructura al final de la vida del list_item
@@ -348,6 +350,7 @@ setup_minicard(GtkListItemFactory *factory, GtkListItem *list_item)
     widgets->button = GTK_BUTTON(gtk_builder_get_object(builder, "card_button"));
     
     gtk_picture_set_resource(widgets->image, "/res/images/placeholder.png");
+    gtk_widget_set_size_request(GTK_WIDGET(widgets->image), 250, 250);
 
     // Guardar los widgets en el list_item para usarlos en bind
     // usamos un data full porque hay que liberar la estructura al final de la vida del list_item

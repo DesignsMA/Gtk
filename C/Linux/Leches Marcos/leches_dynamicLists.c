@@ -96,7 +96,7 @@ Producto productos[8] = {
         .stock = 30,
         .categoria = "quesos",
         .subcategoria = "mozzarella",
-        .imagen_url = ""
+        .imagen_url = "https://www.santoslugotiendaenlinea.com.mx/attachments/shop_images/0308.jpg"
     },
     
     // PRODUCTOS DE CATEGORÍA "yogures"

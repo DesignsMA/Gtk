@@ -315,6 +315,7 @@ windowcontrols button > image {
 .products-view {
     border: none;
     border-radius: 0px;
+    padding: 1rem;
 }
 
 .products-label {
@@ -322,7 +323,7 @@ windowcontrols button > image {
     font-size: 1.5rem;
     font-weight: 700;
     color: #252525;
-    margin-bottom: 7px;
+    margin-top: 5px;
 }
 
 .products-box {
@@ -435,6 +436,11 @@ button.card-icon-button:active > image {
     background: none;
     background-color: transparent;
     -gtk-icon-transform: scale(0.7);
+}
+
+GtkAspectFrame {
+    min-width: 250px;
+    min-height: 250px;
 }
 
 /* Card */

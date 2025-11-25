@@ -265,24 +265,16 @@ Leches Toño</property>
 
                                                                  </child>
 
-                                                                <child>
-                                                                    <object class = "GtkScrolledWindow">
-                                                                        <property name="hscrollbar-policy">never</property>
-                                                                        <property name="vscrollbar-policy">automatic</property>
-                                                                        
-                                                                        <child>
-                                                                            <object class="GtkBox" id="filter_box">
-                                                                                <property name="orientation">vertical</property>
-                                                                                <property name="spacing">10</property>
-                                                                                <property name="halign">fill</property>
-                                                                                <property name="valign">fill</property>
-                                                                                <property name="vexpand">true</property>
-                                                                                <property name="hexpand">true</property>
-                                                                            </object>
-                                                                        </child>
-
-                                                                    </object>
-                                                                </child>
+                                                                 <child>
+                                                                     <object class="GtkBox" id="filter_box">
+                                                                         <property name="orientation">vertical</property>
+                                                                         <property name="spacing">10</property>
+                                                                         <property name="halign">fill</property>
+                                                                         <property name="valign">fill</property>
+                                                                         <property name="vexpand">true</property>
+                                                                         <property name="hexpand">true</property>
+                                                                     </object>
+                                                                 </child>
 
 
 
@@ -299,118 +291,147 @@ Leches Toño</property>
                                                     <child>
                                                     <object class="GtkFrame" id="products_view">
                                                         <child>
-                                                            <object class = "GtkScrolledWindow" id="products_scroll">
-                                                                <property name="hscrollbar-policy">never</property>
-                                                                <property name="vscrollbar-policy">automatic</property>
-
+                                                            <object class = "GtkBox" id="products_scroll">
+                                                                <property name="orientation">vertical</property>
+                                                                <property name="hexpand">true</property>
+                                                                <property name="vexpand">true</property>
                                                                 <child>
                                                                     <object class="GtkBox" id="products_box">
                                                                         <property name="orientation">vertical</property>
                                                                         <property name="halign">fill</property>
-                                                                        <property name="valign">fill</property>
-                                                                        <property name="vexpand">true</property>
                                                                         <property name="hexpand">true</property>
-
-                                                                        <child>
-                                                                            <object class="GtkLabel" id="products_label">
-                                                                                <property name="halign">start</property>
-                                                                                <property name="label">BÚSQUEDA</property>
-                                                                                <style>
-                                                                                    <class name="products-label"/>
-                                                                                </style>
-                                                                            </object>
-                                                                        </child>
-
-                                                                        <child>
-                                                                            <object class ="GtkSeparator">
-                                                                                <property name="halign">fill</property>
-                                                                                <property name="valign">start</property>
-                                                                                <property name="hexpand">true</property>
-                                                                                <property name="orientation">horizontal</property>
-                                                                                <style>
-                                                                                <class name="panel-separator"/>
-                                                                                </style>
-                                                                            </object>
-                                                                        </child>
                                                                         
+                                                                        <!-- Header con búsqueda y botones -->
                                                                         <child>
-                                                                            <object class = "GtkBox">
-                                                                                <property name="orientation">horizontal</property>
+                                                                            <object class="GtkBox">
+                                                                                <property name="orientation">vertical</property>
                                                                                 <property name="halign">fill</property>
                                                                                 <property name="hexpand">true</property>
-
+                                                                                
                                                                                 <child>
-                                                                                    <object class="GtkToggleButton" id="button_list">
-                                                                                        <property name="can-focus">false</property>
-                                                                                        <property name="receives-default">false</property>
-                                                                                        <signal name="toggled" handler="ver_modo_lista_cb" swapped="no"/>
+                                                                                    <object class="GtkLabel" id="products_label">
+                                                                                        <property name="halign">start</property>
+                                                                                        <property name="label">BÚSQUEDA</property>
                                                                                         <style>
-                                                                                            <class name="icon-toggle"/>
+                                                                                            <class name="products-label"/>
                                                                                         </style>
-
-                                                                                        <child>
-                                                                                            <object class="GtkImage" id="list_icon">
-                                                                                                <property name="icon-name">view-list-symbolic</property>
-                                                                                                <property name="pixel-size">40</property>
-                                                                                            </object>
-                                                                                        </child>
-
                                                                                     </object>
                                                                                 </child>
 
                                                                                 <child>
-                                                                                    <object class="GtkToggleButton" id="button_grid">
-                                                                                        <property name="can-focus">false</property>
-                                                                                        <property name="receives-default">false</property>
-                                                                                        <signal name="toggled" handler="ver_modo_grid_cb" swapped="no"/>
+                                                                                    <object class="GtkSeparator">
+                                                                                        <property name="halign">fill</property>
+                                                                                        <property name="margin-top">5</property>
+                                                                                        <property name="margin-bottom">5</property>
+                                                                                        <property name="orientation">horizontal</property>
                                                                                         <style>
-                                                                                            <class name="icon-toggle"/>
+                                                                                            <class name="panel-separator"/>
                                                                                         </style>
+                                                                                    </object>
+                                                                                </child>
+                                                                                
+                                                                                <child>
+                                                                                    <object class="GtkBox">
+                                                                                        <property name="orientation">horizontal</property>
+                                                                                        <property name="halign">fill</property>
+                                                                                        <property name="margin-bottom">10</property>
 
                                                                                         <child>
-                                                                                            <object class="GtkImage" id="grid_icon">
-                                                                                                <property name="icon-name">view-grid-symbolic</property>
-                                                                                                <property name="pixel-size">40</property>
+                                                                                            <object class="GtkToggleButton" id="button_list">
+                                                                                                <property name="can-focus">false</property>
+                                                                                                <property name="receives-default">false</property>
+                                                                                                <signal name="toggled" handler="ver_modo_lista_cb" swapped="no"/>
+                                                                                                <style>
+                                                                                                    <class name="icon-toggle"/>
+                                                                                                </style>
+                                                                                                <child>
+                                                                                                    <object class="GtkImage" id="list_icon">
+                                                                                                        <property name="icon-name">view-list-symbolic</property>
+                                                                                                        <property name="pixel-size">40</property>
+                                                                                                    </object>
+                                                                                                </child>
                                                                                             </object>
                                                                                         </child>
 
+                                                                                        <child>
+                                                                                            <object class="GtkToggleButton" id="button_grid">
+                                                                                                <property name="can-focus">false</property>
+                                                                                                <property name="receives-default">false</property>
+                                                                                                <signal name="toggled" handler="ver_modo_grid_cb" swapped="no"/>
+                                                                                                <style>
+                                                                                                    <class name="icon-toggle"/>
+                                                                                                </style>
+                                                                                                <child>
+                                                                                                    <object class="GtkImage" id="grid_icon">
+                                                                                                        <property name="icon-name">view-grid-symbolic</property>
+                                                                                                        <property name="pixel-size">40</property>
+                                                                                                    </object>
+                                                                                                </child>
+                                                                                            </object>
+                                                                                        </child>
                                                                                     </object>
-                                                                                </child>                                                                                
-
+                                                                                </child>
                                                                             </object>
                                                                         </child>
 
+                                                                        <!-- Stack que ocupa todo el espacio restante -->
                                                                         <child>
-                                                                            <object class="GtkStack" id="products_stack">
-                                                                                <property name="transition-type">crossfade</property>
-                                                                            <child>
-                                                                                <object class="GtkStackPage">
-                                                                                <property name="name">list</property>
-                                                                                <property name="title">Lista</property>
-                                                                                <property name="child">
-                                                                                    <object class="GtkListView" id="list_view"/>
-                                                                                </property>
-                                                                                </object>
-                                                                            </child>
-
-                                                                            <child>
-                                                                                <object class="GtkStackPage">
-                                                                                <property name="name">grid</property>
-                                                                                <property name="title">Grid</property>
-                                                                                <property name="child">
-                                                                                    <object class="GtkGridView" id="grid_view"/>
-                                                                                </property>
-                                                                                </object>
-                                                                            </child>
+                                                                            <object class="GtkBox">
+                                                                                <property name="orientation">vertical</property>
+                                                                                <property name="hexpand">true</property>
+                                                                                <property name="vexpand">true</property> <!-- ✅ IMPORTANTE -->
+                                                                                <child>
+                                                                                    <object class="GtkStack" id="products_stack">
+                                                                                        <property name="transition-type">crossfade</property>
+                                                                                        <property name="hexpand">true</property>
+                                                                                        <property name="vexpand">true</property> <!-- ✅ IMPORTANTE -->
+                                                                                        <child>
+                                                                                            <object class="GtkStackPage">
+                                                                                                <property name="name">list</property>
+                                                                                                <property name="title">Lista</property>
+                                                                                                <property name="child">
+                                                                                                    <!-- ScrolledWindow para el ListView -->
+                                                                                                    <object class="GtkBox">
+                                                                                                        <property name="orientation">vertical</property>
+                                                                                                        <property name="hexpand">true</property>
+                                                                                                        <property name="vexpand">true</property>
+                                                                                                        <child>
+                                                                                                            <object class="GtkListView" id="list_view">
+                                                                                                                <property name="hexpand">true</property>
+                                                                                                                <property name="vexpand">true</property>
+                                                                                                            </object>
+                                                                                                        </child>
+                                                                                                    </object>
+                                                                                                </property>
+                                                                                            </object>
+                                                                                        </child>
+                                                                                        <child>
+                                                                                            <object class="GtkStackPage">
+                                                                                                <property name="name">grid</property>
+                                                                                                <property name="title">Cuadrícula</property>
+                                                                                                <property name="child">
+                                                                                                    <!-- ScrolledWindow para el GridView -->
+                                                                                                    <object class="GtkScrolledWindow">
+                                                                                                        <property name="hscrollbar-policy">never</property>
+                                                                                                        <property name="vscrollbar-policy">automatic</property>
+                                                                                                        <property name="hexpand">true</property>
+                                                                                                        <property name="vexpand">true</property>
+                                                                                                        <child>
+                                                                                                            <object class="GtkGridView" id="grid_view">
+                                                                                                                <property name="hexpand">true</property>
+                                                                                                                <property name="vexpand">true</property>
+                                                                                                            </object>
+                                                                                                        </child>
+                                                                                                    </object>
+                                                                                                </property>
+                                                                                            </object>
+                                                                                        </child>
+                                                                                    </object>
+                                                                                </child>
                                                                             </object>
                                                                         </child>
-
-                                                                        <style>
-                                                                            <class name="products-box"/>
-                                                                        </style>
                                                                     </object>
-                                                                </child>    
-                                                            </object>
+                                                                </child>                                                            </object>
                                                         </child>
 
                                                         <style>

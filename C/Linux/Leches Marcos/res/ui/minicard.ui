@@ -5,6 +5,8 @@
   <object class="GtkFrame" id="card">
     <property name="width-request">250</property>
     <property name="height-request">350</property>
+    <property name="halign">start</property> 
+    <property name="vexpand">false</property> <!-- No expandir verticalmente -->
     <style>
       <class name="product-card"/>
     </style>
@@ -15,11 +17,18 @@
         <property name="spacing">8</property>
 
         <child>
-          <object class="GtkPicture" id="card_image">
-            <property name="height-request">200</property>
-            <property name="content-fit">scale-down</property>
-            <property name="halign">fill</property>
-            <property name="valign">fill</property>
+          <object class="GtkAspectFrame">
+          <property name="width-request">250</property>
+          <property name="height-request">250</property>
+          <property name="ratio">1</property>  <!-- 1:1 aspect ratio -->
+          <property name="obey-child">false</property>
+
+          <child>
+            <object class="GtkPicture" id="card_image">
+            <property name="content-fit">cover</property>
+            <property name="can-shrink">true</property>
+            <property name="halign">start</property>
+            <property name="valign">center</property>
 
             <property name="file"></property>
             <style>
@@ -30,7 +39,9 @@
                 <signal name="pressed" handler="ver_detalles_cb" swapped="no"/>
               </object>
             </child>
-          </object>
+            </object>
+          </child>
+        </object>
         </child>
 
         <child>

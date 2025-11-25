@@ -69,6 +69,8 @@ void aplicar_imagen(GObject *source_object, GAsyncResult *res, gpointer user_dat
         if (texture) {
             gtk_picture_set_paintable(GTK_PICTURE(data->picture), GDK_PAINTABLE(texture));
             g_object_unref(texture);
+
+            gtk_widget_set_size_request(GTK_WIDGET(data->picture), 250, 250);
         }
 
         g_free(filename);
@@ -115,6 +117,7 @@ void cargar_imagen(const char* url, GtkPicture *picture) {
         if (texture) {
             gtk_picture_set_paintable(GTK_PICTURE(picture), GDK_PAINTABLE(texture));
             g_object_unref(texture);
+            gtk_widget_set_size_request(GTK_WIDGET(picture), 250, 250);
         }
         g_free(found_cache_path);
         g_free(data);
