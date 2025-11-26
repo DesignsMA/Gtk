@@ -8,6 +8,7 @@
         <property name = "default-width">1280</property>
         <property name = "default-height">720</property>
         <property name = "resizable">TRUE</property>
+        <!-- Barra principal -->
         <child type="titlebar">
             <object class="GtkHeaderBar" id="header_bar">
                 
@@ -83,21 +84,38 @@
                 </child>
 
                 <child type="end">
-                    <object class="GtkButton" id="cart_button">
+                        <object class="GtkOverlay" id="cart_button_container">
                         <property name="can-focus">false</property>
-                        <property name="receives-default">false</property>
-                        <style>
-                            <class name="icon-button"/>
-                        </style>
-
+                        
+                        <!-- Botón principal del carrito -->
                         <child>
-                            <object class="GtkImage" id="cart_icon">
+                            <object class="GtkButton" id="cart_button">
+                            <property name="can-focus">false</property>
+                            <property name="receives-default">false</property>
+                            <style>
+                                <class name="icon-button"/>
+                            </style>
+                            <child>
+                                <object class="GtkImage" id="cart_icon">
                                 <property name="icon-name">leche-cart-symbolic</property>
                                 <property name="pixel-size">20</property>
+                                </object>
+                            </child>
+
+                            <signal name="clicked" handler="abrir_carrito_cb" swapped="no"/>
                             </object>
                         </child>
-
-                    </object>
+                        
+                        <!-- Badge circular para el contador -->
+                        <child type="overlay">
+                            <object class="GtkLabel" id="cart_badge">
+                            <property name="halign">end</property>
+                            <property name="valign">start</property>
+                            <property name="visible">false</property>
+                            <property name="label">0</property>
+                            </object>
+                        </child>
+                        </object>
                 </child>
 
             </object>
@@ -106,351 +124,629 @@
         
         <child>
 
-            <object class="GtkScrolledWindow" id="main_scroll">
-                <property name="hscrollbar-policy">never</property>
-                <property name="vscrollbar-policy">automatic</property>
-                
+            <object class="GtkOverlay" id="main_overlay">
+                <!-- Contenido por debajo del overlay-->
                 <child>
-
-                    <object class="GtkViewport">
+                    <object class="GtkScrolledWindow" id="main_scroll">
+                        <property name="hscrollbar-policy">never</property>
+                        <property name="vscrollbar-policy">automatic</property>
+                        
                         <child>
-                            <object class="GtkStack" id="main_stack">
-                                <property name="transition-type">crossfade</property>
 
+                            <object class="GtkViewport">
                                 <child>
-                                    <object class="GtkStackPage" id="welcome_page">
-                                        <property name="name">welcome</property>
-                                        <property name="child">
-                                                    <object class="GtkBox">
-                                                        <property name="orientation">vertical</property>
-                                                        <property name="valign">start</property>\
-                                                        <property name="vexpand">true</property>
-                                                        <property name="halign">center</property>
+                                    <object class="GtkStack" id="main_stack">
+                                        <property name="transition-type">crossfade</property>
 
-                                                        <child>
-                                                        <!------- WIDGETS PAGINA PRINCIPAL -------->
-
-                                                            <object class="GtkOverlay" id="welcome_overlay">
-                                                                <property name="halign">fill</property>
-                                                                <property name="valign">start</property>
-                                                                <!-- IMAGEN PRINCIPAL -->
-                                                                <child>
-                                                                    <object class="GtkPicture" id="welcome_image">
-                                                                        <property name="can-shrink">TRUE</property>
-                                                                        <property name="vexpand">False</property>
-                                                                        <property name="height-request">400</property>
-                                                                        <property name="content-fit">cover</property>
-                                                                        <style>
-                                                                            <class name="welcome-image"/>
-                                                                        </style>
-                                                                    </object>
-
-                                                                </child>
-
-                                                                <child type="overlay">
-                                                                    <object class="GtkBox">
-                                                                        <property name="orientation">vertical</property>
-                                                                        <property name="spacing">18</property>
-                                                                        <property name="halign">center</property>
-                                                                        <property name="valign">center</property>
-
-                                                                        <!-- TÍTULO -->
-                                                                        <child>
-                                                                            <object class="GtkLabel" id="welcome_title">
-                                                                                <property name="label" translatable="no">Lácteos
-Leches Toño</property>
-                                                                                <property name="justify">left</property>
-                                                                                <style>
-                                                                                    <class name="welcome-title"/>
-                                                                                </style>
-                                                                            </object>
-                                                                        </child>
-
-                                                                        <!-- DESCRIPCIÓN -->
-                                                                        <child>
-                                                                            <object class="GtkLabel" id="welcome_description">
-                                                                                <property name="label">Descubra nuestra amplia gama de productos lácteos.</property>
-                                                                                <property name="wrap">True</property>
-                                                                                <property name="wrap-mode">word-char</property>
-                                                                                <property name="max-width-chars">40</property>
-                                                                                <property name="justify">left</property>
-                                                                                <style>
-                                                                                    <class name="welcome-description"/>
-                                                                                </style>
-                                                                            </object>
-                                                                        </child>
-
-                                                                        <!-- BOTÓN -->
-                                                                        <child>
-                                                                            <object class="GtkButton" id="welcome_button">
-                                                                                <property name="label">VER PRODUCTOS</property>
-                                                                                <style>
-                                                                                    <class name="primary-button"/>
-                                                                                </style>
-                                                                            </object>
-                                                                        </child>
-                                                                    </object>
-                                                                </child>
-                                                                
-                                                            </object>
-
-                                                        <!------- WIDGETS PAGINA PRINCIPAL -------->
-                                                        </child>
-
-                                                        <child>
-                                                            <object class="GtkLabel" id="welcome_featured">
-                                                                <property name="label">Productos Destacados</property>
-                                                                <property name="justify">center</property>
-                                                                <style>
-                                                                    <class name="black-text"/>
-                                                                    <class name="featured-title"/>
-                                                                </style>
-                                                            </object>
-                                                        </child>
-
-                                                        <child>
-                                                            <object class="GtkLabel" id="welcome_featured-desc">
-                                                                <property name="label">Una selección de nuestros productos lácteos.</property>
-                                                                <property name="justify">center</property>
-                                                                <style>
-                                                                    <class name="light-text"/>
-                                                                    <class name="featured-description"/>
-                                                                </style>
-                                                            </object>
-                                                        </child>
-
-                                                        <child>
-                                                            <object class="GtkGridView" id="featured_view">
-                                                                <property name="halign">center</property>
-                                                                <property name="hexpand">true</property>
-                                                                <property name="max-columns">4</property>
-                                                            </object>
-                                                        </child>
-
-                                                    </object>
-                                        </property>
-                                        </object>
-                                </child>
-                                    
-                                <child>
-                                    <object class="GtkStackPage" id="products_page">
-                                        <property name="name">products</property>
-                                        <property name="title">Productos…</property>
-                                        <property name="child">
-                                            <object class="GtkPaned" id="products_panel">
-                                                    <property name="orientation">horizontal</property>
-                                                    <property name="position">250</property>
-                                                    <child>
-                                                    <object class="GtkFrame" id="products_filter">
-                                                        <property name="label">FILTROS</property>
-                                                        <child>
-
-                                                            <object class="GtkBox" id="filters_box">
+                                        <child>
+                                            <object class="GtkStackPage" id="welcome_page">
+                                                <property name="name">welcome</property>
+                                                <property name="child">
+                                                            <object class="GtkBox">
                                                                 <property name="orientation">vertical</property>
-                                                                <property name="spacing">10</property>
-                                                                <property name="halign">fill</property>
-                                                                <property name="valign">fill</property>
+                                                                <property name="valign">start</property>\
                                                                 <property name="vexpand">true</property>
-                                                                <!-- Aquí se añadirán los filtros dinámicamente -->
-                                                                 <child>
-                                                                    <object class ="GtkSeparator">
+                                                                <property name="halign">center</property>
+
+                                                                <child>
+                                                                <!------- WIDGETS PAGINA PRINCIPAL -------->
+
+                                                                    <object class="GtkOverlay" id="welcome_overlay">
                                                                         <property name="halign">fill</property>
                                                                         <property name="valign">start</property>
-                                                                        <property name="hexpand">true</property>
-                                                                        <property name="orientation">horizontal</property>
-                                                                        <style>
-                                                                            <class name="panel-separator"/>
-                                                                        </style>
+                                                                        <!-- IMAGEN PRINCIPAL -->
+                                                                        <child>
+                                                                            <object class="GtkPicture" id="welcome_image">
+                                                                                <property name="can-shrink">TRUE</property>
+                                                                                <property name="vexpand">False</property>
+                                                                                <property name="height-request">400</property>
+                                                                                <property name="content-fit">cover</property>
+                                                                                <style>
+                                                                                    <class name="welcome-image"/>
+                                                                                </style>
+                                                                            </object>
+
+                                                                        </child>
+
+                                                                        <child type="overlay">
+                                                                            <object class="GtkBox">
+                                                                                <property name="orientation">vertical</property>
+                                                                                <property name="spacing">18</property>
+                                                                                <property name="halign">center</property>
+                                                                                <property name="valign">center</property>
+
+                                                                                <!-- TÍTULO -->
+                                                                                <child>
+                                                                                    <object class="GtkLabel" id="welcome_title">
+                                                                                        <property name="label" translatable="no">Lácteos
+Leches Toño</property>
+                                                                                        <property name="justify">left</property>
+                                                                                        <style>
+                                                                                            <class name="welcome-title"/>
+                                                                                        </style>
+                                                                                    </object>
+                                                                                </child>
+
+                                                                                <!-- DESCRIPCIÓN -->
+                                                                                <child>
+                                                                                    <object class="GtkLabel" id="welcome_description">
+                                                                                        <property name="label">Descubra nuestra amplia gama de productos lácteos.</property>
+                                                                                        <property name="wrap">True</property>
+                                                                                        <property name="wrap-mode">word-char</property>
+                                                                                        <property name="max-width-chars">40</property>
+                                                                                        <property name="justify">left</property>
+                                                                                        <style>
+                                                                                            <class name="welcome-description"/>
+                                                                                        </style>
+                                                                                    </object>
+                                                                                </child>
+
+                                                                                <!-- BOTÓN -->
+                                                                                <child>
+                                                                                    <object class="GtkButton" id="welcome_button">
+                                                                                        <property name="label">VER PRODUCTOS</property>
+                                                                                        <style>
+                                                                                            <class name="primary-button"/>
+                                                                                        </style>
+                                                                                    </object>
+                                                                                </child>
+                                                                            </object>
+                                                                        </child>
+                                                                        
                                                                     </object>
 
-                                                                 </child>
+                                                                <!------- WIDGETS PAGINA PRINCIPAL -------->
+                                                                </child>
 
-                                                                 <child>
-                                                                     <object class="GtkBox" id="filter_box">
-                                                                         <property name="orientation">vertical</property>
-                                                                         <property name="spacing">10</property>
-                                                                         <property name="halign">fill</property>
-                                                                         <property name="valign">fill</property>
-                                                                         <property name="vexpand">true</property>
-                                                                         <property name="hexpand">true</property>
-                                                                     </object>
-                                                                 </child>
+                                                                <child>
+                                                                    <object class="GtkLabel" id="welcome_featured">
+                                                                        <property name="label">Productos Destacados</property>
+                                                                        <property name="justify">center</property>
+                                                                        <style>
+                                                                            <class name="black-text"/>
+                                                                            <class name="featured-title"/>
+                                                                        </style>
+                                                                    </object>
+                                                                </child>
 
+                                                                <child>
+                                                                    <object class="GtkLabel" id="welcome_featured-desc">
+                                                                        <property name="label">Una selección de nuestros productos lácteos.</property>
+                                                                        <property name="justify">center</property>
+                                                                        <style>
+                                                                            <class name="light-text"/>
+                                                                            <class name="featured-description"/>
+                                                                        </style>
+                                                                    </object>
+                                                                </child>
 
+                                                                <child>
+                                                                    <object class="GtkGridView" id="featured_view">
+                                                                        <property name="halign">center</property>
+                                                                        <property name="hexpand">true</property>
+                                                                        <property name="max-columns">4</property>
+                                                                    </object>
+                                                                </child>
 
                                                             </object>
-                                                        </child>
-
-                                                        <style>
-                                                            <class name="products-filter"/>
-                                                        </style>
-                                                    </object>
-
-                                                    </child>
-
-                                                    <child>
-                                                    <object class="GtkFrame" id="products_view">
-                                                        <child>
-                                                            <object class = "GtkBox" id="products_scroll">
-                                                                <property name="orientation">vertical</property>
-                                                                <property name="hexpand">true</property>
-                                                                <property name="vexpand">true</property>
+                                                </property>
+                                                </object>
+                                        </child>
+                                            
+                                        <child>
+                                            <object class="GtkStackPage" id="products_page">
+                                                <property name="name">products</property>
+                                                <property name="title">Productos…</property>
+                                                <property name="child">
+                                                    <object class="GtkPaned" id="products_panel">
+                                                            <property name="orientation">horizontal</property>
+                                                            <property name="position">250</property>
+                                                            <child>
+                                                            <object class="GtkFrame" id="products_filter">
+                                                                <property name="label">FILTROS</property>
                                                                 <child>
-                                                                    <object class="GtkBox" id="products_box">
+
+                                                                    <object class="GtkBox" id="filters_box">
                                                                         <property name="orientation">vertical</property>
+                                                                        <property name="spacing">10</property>
                                                                         <property name="halign">fill</property>
-                                                                        <property name="hexpand">true</property>
-                                                                        
-                                                                        <!-- Header con búsqueda y botones -->
+                                                                        <property name="valign">fill</property>
+                                                                        <property name="vexpand">true</property>
+                                                                        <!-- Aquí se añadirán los filtros dinámicamente -->
                                                                         <child>
-                                                                            <object class="GtkBox">
+                                                                            <object class ="GtkSeparator">
+                                                                                <property name="halign">fill</property>
+                                                                                <property name="valign">start</property>
+                                                                                <property name="hexpand">true</property>
+                                                                                <property name="orientation">horizontal</property>
+                                                                                <style>
+                                                                                    <class name="panel-separator"/>
+                                                                                </style>
+                                                                            </object>
+
+                                                                        </child>
+
+                                                                        <child>
+                                                                            <object class="GtkBox" id="filter_box">
+                                                                                <property name="orientation">vertical</property>
+                                                                                <property name="spacing">10</property>
+                                                                                <property name="halign">fill</property>
+                                                                                <property name="valign">fill</property>
+                                                                                <property name="vexpand">true</property>
+                                                                                <property name="hexpand">true</property>
+                                                                            </object>
+                                                                        </child>
+
+
+
+                                                                    </object>
+                                                                </child>
+
+                                                                <style>
+                                                                    <class name="products-filter"/>
+                                                                </style>
+                                                            </object>
+
+                                                            </child>
+
+                                                            <child>
+                                                            <object class="GtkFrame" id="products_view">
+                                                                <child>
+                                                                    <object class = "GtkBox" id="products_scroll">
+                                                                        <property name="orientation">vertical</property>
+                                                                        <property name="hexpand">true</property>
+                                                                        <property name="vexpand">true</property>
+                                                                        <child>
+                                                                            <object class="GtkBox" id="products_box">
                                                                                 <property name="orientation">vertical</property>
                                                                                 <property name="halign">fill</property>
                                                                                 <property name="hexpand">true</property>
                                                                                 
-                                                                                <child>
-                                                                                    <object class="GtkLabel" id="products_label">
-                                                                                        <property name="halign">start</property>
-                                                                                        <property name="label">BÚSQUEDA</property>
-                                                                                        <style>
-                                                                                            <class name="products-label"/>
-                                                                                        </style>
-                                                                                    </object>
-                                                                                </child>
-
-                                                                                <child>
-                                                                                    <object class="GtkSeparator">
-                                                                                        <property name="halign">fill</property>
-                                                                                        <property name="margin-top">5</property>
-                                                                                        <property name="margin-bottom">5</property>
-                                                                                        <property name="orientation">horizontal</property>
-                                                                                        <style>
-                                                                                            <class name="panel-separator"/>
-                                                                                        </style>
-                                                                                    </object>
-                                                                                </child>
-                                                                                
+                                                                                <!-- Header con búsqueda y botones -->
                                                                                 <child>
                                                                                     <object class="GtkBox">
-                                                                                        <property name="orientation">horizontal</property>
+                                                                                        <property name="orientation">vertical</property>
                                                                                         <property name="halign">fill</property>
-                                                                                        <property name="margin-bottom">10</property>
-
+                                                                                        <property name="hexpand">true</property>
+                                                                                        
                                                                                         <child>
-                                                                                            <object class="GtkToggleButton" id="button_list">
-                                                                                                <property name="can-focus">false</property>
-                                                                                                <property name="receives-default">false</property>
-                                                                                                <signal name="toggled" handler="ver_modo_lista_cb" swapped="no"/>
+                                                                                            <object class="GtkLabel" id="products_label">
+                                                                                                <property name="halign">start</property>
+                                                                                                <property name="label">BÚSQUEDA</property>
                                                                                                 <style>
-                                                                                                    <class name="icon-toggle"/>
+                                                                                                    <class name="products-label"/>
                                                                                                 </style>
-                                                                                                <child>
-                                                                                                    <object class="GtkImage" id="list_icon">
-                                                                                                        <property name="icon-name">view-list-symbolic</property>
-                                                                                                        <property name="pixel-size">40</property>
-                                                                                                    </object>
-                                                                                                </child>
                                                                                             </object>
                                                                                         </child>
 
                                                                                         <child>
-                                                                                            <object class="GtkToggleButton" id="button_grid">
-                                                                                                <property name="can-focus">false</property>
-                                                                                                <property name="receives-default">false</property>
-                                                                                                <signal name="toggled" handler="ver_modo_grid_cb" swapped="no"/>
+                                                                                            <object class="GtkSeparator">
+                                                                                                <property name="halign">fill</property>
+                                                                                                <property name="margin-top">5</property>
+                                                                                                <property name="margin-bottom">5</property>
+                                                                                                <property name="orientation">horizontal</property>
                                                                                                 <style>
-                                                                                                    <class name="icon-toggle"/>
+                                                                                                    <class name="panel-separator"/>
                                                                                                 </style>
+                                                                                            </object>
+                                                                                        </child>
+                                                                                        
+                                                                                        <child>
+                                                                                            <object class="GtkBox">
+                                                                                                <property name="orientation">horizontal</property>
+                                                                                                <property name="halign">fill</property>
+                                                                                                <property name="margin-bottom">10</property>
+
                                                                                                 <child>
-                                                                                                    <object class="GtkImage" id="grid_icon">
-                                                                                                        <property name="icon-name">view-grid-symbolic</property>
-                                                                                                        <property name="pixel-size">40</property>
+                                                                                                    <object class="GtkToggleButton" id="button_list">
+                                                                                                        <property name="can-focus">false</property>
+                                                                                                        <property name="receives-default">false</property>
+                                                                                                        <signal name="toggled" handler="ver_modo_lista_cb" swapped="no"/>
+                                                                                                        <style>
+                                                                                                            <class name="icon-toggle"/>
+                                                                                                        </style>
+                                                                                                        <child>
+                                                                                                            <object class="GtkImage" id="list_icon">
+                                                                                                                <property name="icon-name">view-list-symbolic</property>
+                                                                                                                <property name="pixel-size">40</property>
+                                                                                                            </object>
+                                                                                                        </child>
+                                                                                                    </object>
+                                                                                                </child>
+
+                                                                                                <child>
+                                                                                                    <object class="GtkToggleButton" id="button_grid">
+                                                                                                        <property name="can-focus">false</property>
+                                                                                                        <property name="receives-default">false</property>
+                                                                                                        <signal name="toggled" handler="ver_modo_grid_cb" swapped="no"/>
+                                                                                                        <style>
+                                                                                                            <class name="icon-toggle"/>
+                                                                                                        </style>
+                                                                                                        <child>
+                                                                                                            <object class="GtkImage" id="grid_icon">
+                                                                                                                <property name="icon-name">view-grid-symbolic</property>
+                                                                                                                <property name="pixel-size">40</property>
+                                                                                                            </object>
+                                                                                                        </child>
                                                                                                     </object>
                                                                                                 </child>
                                                                                             </object>
                                                                                         </child>
                                                                                     </object>
                                                                                 </child>
-                                                                            </object>
-                                                                        </child>
 
-                                                                        <!-- Stack que ocupa todo el espacio restante -->
-                                                                        <child>
-                                                                            <object class="GtkBox">
-                                                                                <property name="orientation">vertical</property>
-                                                                                <property name="hexpand">true</property>
-                                                                                <property name="vexpand">true</property> <!-- ✅ IMPORTANTE -->
+                                                                                <!-- Stack que ocupa todo el espacio restante -->
                                                                                 <child>
-                                                                                    <object class="GtkStack" id="products_stack">
-                                                                                        <property name="transition-type">crossfade</property>
+                                                                                    <object class="GtkBox">
+                                                                                        <property name="orientation">vertical</property>
                                                                                         <property name="hexpand">true</property>
                                                                                         <property name="vexpand">true</property> <!-- ✅ IMPORTANTE -->
                                                                                         <child>
-                                                                                            <object class="GtkStackPage">
-                                                                                                <property name="name">list</property>
-                                                                                                <property name="title">Lista</property>
-                                                                                                <property name="child">
-                                                                                                    <!-- ScrolledWindow para el ListView -->
-                                                                                                    <object class="GtkBox">
-                                                                                                        <property name="orientation">vertical</property>
-                                                                                                        <property name="hexpand">true</property>
-                                                                                                        <property name="vexpand">true</property>
-                                                                                                        <child>
-                                                                                                            <object class="GtkListView" id="list_view">
+                                                                                            <object class="GtkStack" id="products_stack">
+                                                                                                <property name="transition-type">crossfade</property>
+                                                                                                <property name="hexpand">true</property>
+                                                                                                <property name="vexpand">true</property> <!-- ✅ IMPORTANTE -->
+                                                                                                <child>
+                                                                                                    <object class="GtkStackPage">
+                                                                                                        <property name="name">list</property>
+                                                                                                        <property name="title">Lista</property>
+                                                                                                        <property name="child">
+                                                                                                            <!-- ScrolledWindow para el ListView -->
+                                                                                                            <object class="GtkBox">
+                                                                                                                <property name="orientation">vertical</property>
                                                                                                                 <property name="hexpand">true</property>
                                                                                                                 <property name="vexpand">true</property>
+                                                                                                                <child>
+                                                                                                                    <object class="GtkListView" id="list_view">
+                                                                                                                        <property name="hexpand">true</property>
+                                                                                                                        <property name="vexpand">true</property>
+                                                                                                                    </object>
+                                                                                                                </child>
                                                                                                             </object>
-                                                                                                        </child>
+                                                                                                        </property>
                                                                                                     </object>
-                                                                                                </property>
-                                                                                            </object>
-                                                                                        </child>
-                                                                                        <child>
-                                                                                            <object class="GtkStackPage">
-                                                                                                <property name="name">grid</property>
-                                                                                                <property name="title">Cuadrícula</property>
-                                                                                                <property name="child">
-                                                                                                    <!-- ScrolledWindow para el GridView -->
-                                                                                                    <object class="GtkScrolledWindow">
-                                                                                                        <property name="hscrollbar-policy">never</property>
-                                                                                                        <property name="vscrollbar-policy">automatic</property>
-                                                                                                        <property name="hexpand">true</property>
-                                                                                                        <property name="vexpand">true</property>
-                                                                                                        <child>
-                                                                                                            <object class="GtkGridView" id="grid_view">
+                                                                                                </child>
+                                                                                                <child>
+                                                                                                    <object class="GtkStackPage">
+                                                                                                        <property name="name">grid</property>
+                                                                                                        <property name="title">Cuadrícula</property>
+                                                                                                        <property name="child">
+                                                                                                            <!-- ScrolledWindow para el GridView -->
+                                                                                                            <object class="GtkScrolledWindow">
+                                                                                                                <property name="hscrollbar-policy">never</property>
+                                                                                                                <property name="vscrollbar-policy">automatic</property>
                                                                                                                 <property name="hexpand">true</property>
                                                                                                                 <property name="vexpand">true</property>
+                                                                                                                <child>
+                                                                                                                    <object class="GtkGridView" id="grid_view">
+                                                                                                                        <property name="hexpand">true</property>
+                                                                                                                        <property name="vexpand">true</property>
+                                                                                                                    </object>
+                                                                                                                </child>
                                                                                                             </object>
-                                                                                                        </child>
+                                                                                                        </property>
                                                                                                     </object>
-                                                                                                </property>
+                                                                                                </child>
                                                                                             </object>
                                                                                         </child>
                                                                                     </object>
                                                                                 </child>
                                                                             </object>
-                                                                        </child>
-                                                                    </object>
-                                                                </child>                                                            </object>
-                                                        </child>
+                                                                        </child>                                                            </object>
+                                                                </child>
 
-                                                        <style>
-                                                            <class name="products-view"/>
-                                                        </style>
+                                                                <style>
+                                                                    <class name="products-view"/>
+                                                                </style>
+                                                            </object>
+                                                            </child>
                                                     </object>
-                                                    </child>
+                                                </property>
                                             </object>
-                                        </property>
-                                    </object>
-                                </child>
+                                        </child>
 
+                                    </object>
+
+                                </child>
                             </object>
 
                         </child>
-                    </object>
 
+                    </object>
                 </child>
 
+                <!-- Contenido por encima (overlay) -->
+
+                  <!-- CARRITO COMO OVERLAY (solo aparece sobre el área de contenido) -->
+                <child type="overlay">
+                    <object class="GtkRevealer" id="carrito_revealer">
+                        <property name="halign">end</property>
+                        <property name="valign">fill</property>
+                        <property name="hexpand">false</property>
+                        <property name="vexpand">true</property>
+                        <property name="transition-type">slide-left</property>
+                        <property name="transition-duration">300</property>
+                        <property name="reveal-child">false</property>
+                        
+                        <child>
+                            <object class="GtkBox" id="carrito_container">
+                                <property name="orientation">vertical</property>
+                                <property name="width-request">450</property>
+                                
+                                <!-- Header del carrito -->
+                                <child>
+                                    <object class="GtkBox" id="carrito_header">
+                                        <property name="orientation">horizontal</property>
+                                        <property name="spacing">12</property>
+                                        <property name="margin-top">12</property>
+                                        <property name="margin-bottom">12</property>
+                                        <property name="margin-start">12</property>
+                                        <property name="margin-end">12</property>
+                                        
+                                        <child>
+                                            <object class="GtkLabel" id="carrito_title">
+                                                <property name="label">CARRITO</property>
+                                                <property name="hexpand">true</property>
+                                                <property name="halign">start</property>
+                                                <style>
+                                                    <class name="carrito-title"/>
+                                                </style>
+                                            </object>
+                                        </child>
+                                        
+                                        <child>
+                                            <object class="GtkButton" id="carrito_close_btn">
+                                                <property name="icon-name">window-close-symbolic</property>
+                                                <signal name="clicked" handler="cerrar_carrito_cb" swapped="no"/>
+
+                                                <style>
+                                                    <class name="carrito-close-btn"/>
+                                                </style>
+                                            </object>
+                                        </child>
+                                    </object>
+                                </child>
+                                
+                                <child>
+                                    <object class="GtkSeparator">
+                                        <property name="orientation">horizontal</property>
+                                    </object>
+                                </child>
+                                
+                                <!-- Lista de productos del carrito -->
+                                <child>
+                                    <object class="GtkScrolledWindow" id="carrito_scrolled">
+                                        <property name="vexpand">true</property>
+                                        <property name="hscrollbar-policy">never</property>
+                                        <property name="vscrollbar-policy">automatic</property>
+                                        
+                                        <child>
+                                            <object class="GtkBox" id="carrito_products_list">
+                                                <property name="orientation">vertical</property>
+                                                <property name="spacing">8</property>
+                                                <property name="margin-top">8</property>
+                                                <property name="margin-bottom">8</property>
+                                                <property name="margin-start">12</property>
+                                                <property name="margin-end">12</property>
+                                            </object>
+                                        </child>
+                                    </object>
+                                </child>
+                                
+                                <child>
+                                    <object class="GtkSeparator">
+                                        <property name="orientation">horizontal</property>
+                                    </object>
+                                </child>
+                                
+                                <!-- Footer del carrito -->
+                                <child>
+                                    <object class="GtkBox" id="carrito_footer">
+                                        <property name="orientation">vertical</property>
+                                        <property name="spacing">12</property>
+                                        <property name="margin-top">12</property>
+                                        <property name="margin-bottom">12</property>
+
+                                        <child>
+                                            <object class="GtkLabel" id="carrito_items_count">
+                                                <property name="label">0 artículos</property>
+                                                <property name="hexpand">true</property>
+                                                <property name="halign">start</property>
+                                                <style>
+                                                    <class name="regular-text"/>
+                                                </style>
+                                            </object>
+                                        </child>
+
+                                         <child>
+                                            <object class="GtkSeparator">
+                                                <property name="orientation">horizontal</property>
+                                            </object>
+                                        </child>
+                                        
+                                        <child>
+                                            <object class="GtkBox" id="carrito_total_box">
+                                                <property name="orientation">horizontal</property>
+                                                <property name="spacing">8</property>
+                                                
+                                                <child>
+                                                    <object class="GtkLabel" id="carrito_total_label">
+                                                        <property name="label">Total: </property>
+                                                        <property name="hexpand">true</property>
+                                                        <property name="halign">start</property>
+                                                        <style>
+                                                            <class name="carrito-total-label"/>
+                                                        </style>
+                                                    </object>
+                                                </child>
+                                                
+                                                <child>
+                                                    <object class="GtkLabel" id="carrito_total_amount">
+                                                        <property name="label">$0.00</property>
+                                                        <style>
+                                                            <class name="carrito-total-amount"/>
+                                                        </style>
+                                                    </object>
+                                                </child>
+                                            </object>
+                                        </child>
+                                        
+                                        <child>
+                                            <object class="GtkButton" id="carrito_checkout_btn">
+                                                <property name="label">FINALIZAR COMPRA</property>
+                                                <signal name="clicked" handler="finalizar_compra_cb" swapped="no"/>
+                                                <style>
+                                                    <class name="carrito-checkout-btn"/>
+                                                </style>
+                                            </object>
+                                        </child>
+                                        
+                                        <child>
+                                            <object class="GtkButton" id="carrito_clear_btn">
+                                                <property name="label">VACIAR CARRITO</property>
+                                                <signal name="clicked" handler="vaciar_carrito_cb" swapped="no"/>
+                                                <style>
+                                                    <class name="carrito-clear-btn"/>
+                                                </style>
+                                            </object>
+                                        </child>
+                                    </object>
+                                </child>
+                                
+                                <style>
+                                    <class name="carrito-container"/>
+                                </style>
+
+                            </object>
+                        </child>
+                        
+                    </object>
+                </child>
+
+                <child type="overlay">
+                    <object class="GtkRevealer" id="error_revealer">
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="hexpand">false</property>
+                        <property name="vexpand">false</property>
+                        <property name="transition-type">crossfade</property>
+                        <property name="transition-duration">300</property>
+                        <property name="reveal-child">false</property>
+                        
+                        <child>
+                        <object class="GtkBox" id="error_container">
+                            <property name="orientation">vertical</property>
+                            <property name="spacing">12</property>
+                            <property name="width-request">300</property>
+                            <property name="height-request">80</property>
+                            <property name="margin-start">20</property>
+                            <property name="margin-end">20</property>
+                            
+                            <child>
+                            <object class="GtkLabel" id="error_label">
+                                <property name="label">Mensaje de error</property>
+                                <property name="wrap">true</property>
+                                <property name="justify">center</property>
+                                <property name="halign">center</property>
+                                <property name="valign">center</property>
+                                <property name="hexpand">true</property>
+                                <property name="vexpand">true</property>
+                                <style>
+                                    <class name="error-label"/>
+                                </style>
+                            </object>
+                            </child>
+
+                            <style>
+                                <class name="error-container"/>
+                            </style>
+                        </object>
+                        </child>
+                    </object>
+                    </child>
+
+                    <child type="overlay">
+                    <object class="GtkRevealer" id="checkout_revealer">
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="hexpand">false</property>
+                        <property name="vexpand">false</property>
+                        <property name="transition-type">crossfade</property>
+                        <property name="transition-duration">300</property>
+                        <property name="reveal-child">false</property>
+                        
+                        <child>
+                        <object class="GtkBox" id="checkout_container">
+                            <property name="orientation">vertical</property>
+                            <property name="spacing">12</property>
+                            <property name="width-request">300</property>
+                            <property name="height-request">600</property>
+                            <property name="margin-start">20</property>
+                            <property name="margin-end">20</property>
+
+                            <child>
+                                <object class="GtkSeparator">
+                                    <property name="orientation">horizontal</property>
+                                    <style>
+                                        <class name="panel-separator"/>
+                                    </style>
+                                </object>
+                            </child>
+                            
+                            <child>
+                            <object class="GtkLabel" id="checkout_label">
+                                <property name="label">total compra todo</property>
+                                <property name="wrap">true</property>
+                                <property name="justify">center</property>
+                                <property name="halign">center</property>
+                                <property name="valign">center</property>
+                                <property name="hexpand">true</property>
+                                <property name="vexpand">true</property>
+                                <style>
+                                    <class name="checkout-label"/>
+                                    <class name="black-text"/>
+                                </style>
+                            </object>
+                            </child>
+
+                            <child>
+                                <object class="GtkSeparator">
+                                    <property name="orientation">horizontal</property>
+                                    <style>
+                                        <class name="panel-separator"/>
+                                    </style>
+                                </object>
+                            </child>
+
+                            <style>
+                                <class name="checkout-container"/>
+                            </style>
+                        </object>
+                        </child>
+                    </object>
+                    </child>
+
+            
             </object>
 
         </child>

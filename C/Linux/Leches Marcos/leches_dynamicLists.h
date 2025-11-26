@@ -6,33 +6,6 @@
 #include "producto.h"
 #include <ctype.h>
 
-#define MAX_NAME 100
-#define MAX_DESC 200
-#define MAX_URL 150
-#define MAX_CAT_NAME 50
-#define MAX_SUBCAT_NAME 50
-#define MAX_SUBCATS_POR_CAT 20
-#define MAX_CATEGORIAS 10
-#define MAX_PRODUCTOS 200
-
-
-typedef struct {
-    char nombre[MAX_CAT_NAME];
-    char subcategorias[MAX_SUBCATS_POR_CAT][MAX_SUBCAT_NAME];
-    int num_subcategorias;
-} Categoria;
-
-typedef struct {
-    char id[37];
-    char nombre[MAX_NAME];
-    char descripcion[MAX_DESC];
-    float precio;
-    int stock;
-    char categoria[MAX_CAT_NAME];
-    char subcategoria[MAX_SUBCAT_NAME];
-    char imagen_url[MAX_URL];
-} Producto;
-
 typedef struct {
     const char *selected_category;
     GHashTable *selected_subcategories; // Hash table para múltiples subcategorías
@@ -41,12 +14,6 @@ typedef struct {
     GtkCustomFilter *subcategory_filter;
     GtkCustomFilter *search_filter;
 } FilterState;
-
-extern Categoria categorias[];
-extern Producto productos[];
-
-extern size_t num_categorias;
-extern size_t num_productos;
 
 // Solo DECLARACIONES con extern
 extern GListStore *store;

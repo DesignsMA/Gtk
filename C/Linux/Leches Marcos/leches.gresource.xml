@@ -4,6 +4,7 @@
     <file compressed="true">res/ui/start.ui</file>
     <file compressed="true">res/ui/minicard.ui</file>
     <file compressed="true">res/ui/card.ui</file>
+    <file compressed="true">res/ui/itemCart.ui</file>
     <file compressed="true" alias="start.css">res/css/start.css</file>
     <file>res/fonts/BebasNeue.ttf</file>
     <file>res/fonts/Montserrat.ttf</file>

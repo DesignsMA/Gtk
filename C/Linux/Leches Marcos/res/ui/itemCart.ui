@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <!-- Item de Carrito -->
+  <object class="GtkBox" id="cart_item">
+    <property name="orientation">horizontal</property>
+    <property name="spacing">12</property>
+    <property name="margin-top">8</property>
+    <property name="margin-bottom">8</property>
+    <property name="margin-start">8</property>
+    <property name="margin-end">8</property>
+    
+    <!-- Imagen del producto -->
+    <child>
+      <object class="GtkPicture" id="product_image">
+        <property name="width-request">80</property>
+        <property name="height-request">80</property>
+        <property name="can-shrink">True</property>
+      </object>
+    </child>
+    
+    <!-- Separador vertical entre imagen y contenido -->
+    <child>
+      <object class="GtkSeparator" id="vertical_separator">
+        <property name="orientation">vertical</property>
+      </object>
+    </child>
+    
+    <!-- Contenedor principal del contenido -->
+    <child>
+      <object class="GtkBox" id="content_box">
+        <property name="orientation">vertical</property>
+        <property name="spacing">8</property>
+        <property name="hexpand">True</property>
+        
+        <!-- Fila superior: Título y botón de eliminar -->
+        <child>
+          <object class="GtkBox" id="title_row">
+            <property name="orientation">horizontal</property>
+            <property name="spacing">8</property>
+            <property name="hexpand">True</property>
+            
+            <!-- Título del producto -->
+            <child>
+              <object class="GtkLabel" id="product_title">
+                <property name="label">Requests Reque Loran sabor intenso</property>
+                <property name="halign">start</property>
+                <property name="hexpand">True</property>
+                <property name="wrap">True</property>
+                <property name="wrap-mode">word-char</property>
+                <property name="xalign">0</property>
+
+                <style>
+                  <class name="bold-text"/>
+                </style>
+              </object>
+            </child>
+            
+            <!-- Botón de eliminar (icono de basura) -->
+            <child>
+              <object class="GtkButton" id="delete_button">
+                <property name="tooltip-text">Eliminar del carrito</property>
+                <property name="halign">end</property>
+                <property name="valign">start</property>
+                <property  name="icon-name">user-trash-symbolic</property>
+
+                <style>
+                  <class name="trash-button"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+        
+        <!-- Separador horizontal entre título y controles -->
+        <child>
+          <object class="GtkSeparator" id="horizontal_separator">
+            <property name="orientation">horizontal</property>
+          </object>
+        </child>
+        
+        <!-- Fila inferior: SpinButton y precio -->
+        <child>
+          <object class="GtkBox" id="controls_row">
+            <property name="orientation">horizontal</property>
+            <property name="spacing">12</property>
+            <property name="hexpand">True</property>
+            
+            <!-- SpinButton para cantidad -->
+            <child>
+              <object class="GtkSpinButton" id="quantity_spin">
+                <property name="adjustment">
+                  <object class="GtkAdjustment" id="quantity_adjustment">
+                    <property name="lower">1</property>
+                    <property name="upper">100</property>
+                    <property name="value">2</property>
+                    <property name="step-increment">1</property>
+                    <property name="page-increment">10</property>
+                  </object>
+                </property>
+                <property name="numeric">True</property>
+                <property name="width-chars">3</property>
+                <property name="halign">start</property>
+              </object>
+            </child>
+            
+            <!-- Etiqueta de precio -->
+            <child>
+              <object class="GtkLabel" id="price_label">
+                <property name="label">x1,00 €</property>
+                <property name="halign">start</property>
+                <property name="valign">center</property>
+                <style>
+                  <class name="regular-text"/>
+                </style>
+              </object>
+            </child>
+            
+            <!-- Espaciador para empujar elementos a la izquierda -->
+            <child>
+              <object class="GtkBox" id="spacer">
+                <property name="hexpand">True</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

@@ -1,149 +1,5 @@
 #include "leches_dynamicLists.h"
-// ejemplo
-
-// ARREGLO DE CATEGORÍAS (5 categorías)
-Categoria categorias[5] = {
-    // CATEGORÍA 1: leches
-    {
-        .nombre = "leches",
-        .subcategorias = {
-            "entera",
-            "deslactosada"
-        },
-        .num_subcategorias = 2
-    },
-    
-    // CATEGORÍA 2: quesos
-    {
-        .nombre = "quesos", 
-        .subcategorias = {
-            "fresco",
-            "mozzarella"
-        },
-        .num_subcategorias = 2
-    },
-    
-    // CATEGORÍA 3: yogures
-    {
-        .nombre = "yogures",
-        .subcategorias = {
-            "natural", 
-            "griego"
-        },
-        .num_subcategorias = 2
-    },
-    
-    // CATEGORÍA 4: cremas
-    {
-        .nombre = "cremas",
-        .subcategorias = {
-            "para batir"
-        },
-        .num_subcategorias = 1
-    },
-
-    // CATEGORÍA 5: test
-    {
-        .nombre = "test",
-        .subcategorias = {
-            "test"
-        },
-        .num_subcategorias = 1
-    }
-};
-
-// ARREGLO DE PRODUCTOS (8 productos)
-Producto productos[8] = {
-
-    // PRODUCTOS DE CATEGORÍA "leches"
-    {
-        .id = "10",
-        .nombre = "Lala Entera",
-        .descripcion = "Leche entera fresca de vaca",
-        .precio = 25.50,
-        .stock = 100,
-        .categoria = "leches",
-        .subcategoria = "entera",
-        .imagen_url = "https://imgur.com/bBuqTi9.png"
-    },
-    {
-        .id = "11",
-        .nombre = "Leche Deslactosada", 
-        .descripcion = "Leche sin lactosa",
-        .precio = 28.00,
-        .stock = 80,
-        .categoria = "leches",
-        .subcategoria = "deslactosada",
-        .imagen_url = ""
-    },
-    
-    // PRODUCTOS DE CATEGORÍA "quesos"
-    {
-        .id = "12",
-        .nombre = "Queso Fresco",
-        .descripcion = "Queso fresco natural",
-        .precio = 45.00,
-        .stock = 50,
-        .categoria = "quesos",
-        .subcategoria = "fresco", 
-        .imagen_url = ""
-    },
-    {
-        .id = "13",
-        .nombre = "Queso Mozzarella",
-        .descripcion = "Queso mozzarella para pizza",
-        .precio = 60.00,
-        .stock = 30,
-        .categoria = "quesos",
-        .subcategoria = "mozzarella",
-        .imagen_url = "https://www.santoslugotiendaenlinea.com.mx/attachments/shop_images/0308.jpg"
-    },
-    
-    // PRODUCTOS DE CATEGORÍA "yogures"
-    {
-        .id = "15",
-        .nombre = "Yogur Natural",
-        .descripcion = "Yogur natural sin azúcar",
-        .precio = 18.75,
-        .stock = 80,
-        .categoria = "yogures",
-        .subcategoria = "natural",
-        .imagen_url = ""
-    },
-    {
-        .id = "16",
-        .nombre = "Yogur Griego",
-        .descripcion = "Yogur estilo griego cremoso",
-        .precio = 22.50,
-        .stock = 60,
-        .categoria = "yogures",
-        .subcategoria = "griego",
-        .imagen_url = ""
-    },
-    
-    // PRODUCTOS DE CATEGORÍA "cremas"
-    {
-        .id = "17",
-        .nombre = "Crema para Batir",
-        .descripcion = "Crema para batir 35% grasa",
-        .precio = 35.00,
-        .stock = 40,
-        .categoria = "cremas",
-        .subcategoria = "para batir",
-        .imagen_url = ""
-    },
-
-    {
-        .id = "18",
-        .nombre = "Test",
-        .descripcion = "Prueba de funcionamiento",
-        .precio = 777.00,
-        .stock = 70,
-        .categoria = "test",
-        .subcategoria = "test",
-        .imagen_url = "https://imgur.com/bc9Zj0Y.png"
-    }
-};
+#include "leches_socket.h"
 
 GListStore *store = NULL;
 GtkNumericSorter *price_sorter = NULL;
@@ -162,12 +18,15 @@ GtkGridView *featured_view = NULL;
 GtkListItemFactory *card_factory = NULL;
 GtkListItemFactory *minicard_factory = NULL;
 
-size_t num_categorias = sizeof(categorias)/sizeof(categorias[0]);
-size_t num_productos = sizeof(productos)/sizeof(productos[0]);
-
 void cargar_productos(GObject *category_box, GCallback filtrar_categoria_cb) {
-    // Esta función puede ser utilizada para cargar productos desde una base de datos o archivo
-    // Actualmente, los productos están definidos estáticamente en el arreglo 'productos'
+    cargar_datos_desde_servidor();
+
+    // Verificar que tenemos datos
+    if (!categorias || num_categorias == 0) {
+        g_warning("No hay categorías cargadas");
+        return;
+    }
+
     filter_state_init(&filter_state); // Inicializar el estado del filtro
 
     store = g_list_store_new(PRODUCT_TYPE); // Nuevo modelo de productos
@@ -190,6 +49,9 @@ void cargar_productos(GObject *category_box, GCallback filtrar_categoria_cb) {
     
 
     for (int i = 0; i < num_productos; i++) {
+
+        if  (productos[i].stock <= 0) continue; // saltar productos sin stock
+
         Product *product = product_new(
             productos[i].id,
             productos[i].nombre,

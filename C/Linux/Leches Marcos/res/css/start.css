@@ -96,6 +96,34 @@ headerbar {
     -gtk-icon-transform: scale(2.3);
 }
 
+/* Badge circular del carrito */
+#cart_badge {
+  background-color: #e74c3c;
+  color: white;
+  border-radius: 50%;
+  min-width: 18px;
+  min-height: 18px;
+  font-size: 10px;
+  font-weight: bold;
+  margin-top: -8px;
+  padding: 0px;
+  border: 1.5px solid white;
+}
+
+/* Para asegurar que el overlay ocupe todo el espacio */
+#cart_button_container {
+  min-width: 40px;
+  min-height: 40px;
+}
+
+#cart_badge.cart-has-items {
+  background-color: #e74c3c;
+}
+
+#cart_badge.cart-empty {
+  background-color: #95a5a6;
+}
+
 /* También ajustar el box que contiene el icono */
 #center_content {
     margin: 0;
@@ -450,21 +478,36 @@ GtkAspectFrame {
     color: #252525;
     border: none;
     border-radius: 5px;
-    padding: 1rem 0.3rem;
-    font-family: 'Montserrat';
-    font-weight: 900;
-    font-size: 0.85rem;
+    min-width: 100px;
+    padding: 1rem 2rem;
     box-shadow: 0 0px 10px rgba(0, 0, 0, 0.068);
     transition: all 0.3s ease;
 }
 
+.card-button > box > label {
+    font-family: 'Montserrat';
+    font-size: 0.85rem;
+    font-weight: 900;
+    color: #252525;
+}
+
 .card-button:hover {
-    box-shadow: 0 0px 20px rgba(0, 255, 0, 0.185);
+    box-shadow: 0 0px 20px rgba(0, 255, 0, 0.619);
     background-image: none;
     transform: scale(1.01);
-    background-color: #55ff7a;
+    background-color: #00cc2e;
     color: #ffffff;
     text-shadow: 0 0px 12px rgba(0, 0, 0, 0.4);
+}
+
+.card-button:hover > box > label
+{
+    color: white;
+}
+
+.card-button:hover > box > image
+{
+    color: white;
 }
 
 .card-button:active {
@@ -568,5 +611,181 @@ GtkAspectFrame {
     color: #00cc2e;
 }
 
+.carrito-container {
+    background-color: #f9f9f9;
+    border-left: none;
+    border-radius: 4px;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+}
+
+.carrito-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #252525;
+}
+
+.carrito-close-btn {
+    background-color: transparent;
+    background: none;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+    outline:none;
+}
+
+.carrito-close-btn:hover {
+    background-color: transparent;
+    background: none;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+    outline:none;
+}
+
+.carrito-close-btn > image {
+    background-color: transparent;
+    background: none;
+    background-image: none;
+    color: #16d13f;
+    -gtk-icon-size: 25px;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    transition: all 0.1s ease;
+}
+
+.carrito-close-btn:hover > image {
+    color: white;
+    background: none;
+    background-image: none;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    background-color: #16d13f90;
+    box-shadow: 0 0px 20px rgba(0, 255, 0, 0.529);
+}
+
+.carrito-total-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #252525;
+}
+
+.carrito-total-amount {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: #00cc2e;
+}
 
 
+.carrito-checkout-btn {
+    background-color: #00cc2e;
+    background-image: none;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    font-family: 'Montserrat';
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.227);
+    transition: background 0.1s ease;
+}
+
+.carrito-checkout-btn:hover {
+    box-shadow: 0 0px 20px rgba(0, 255, 0, 0.741);
+}
+
+.carrito-checkout-btn:active {
+    box-shadow: 0 0px 10px rgba(0, 204, 46, 0.541);
+    background-color: #00aa29;
+}
+
+.carrito-clear-btn {
+    background-color: #ffffff;
+    background-image: none;
+    color: #252525;
+    border: none;
+    border-radius: 10px;
+    padding: 0.5rem;
+    font-family: 'Montserrat';
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.227);
+    transition: background 0.1s ease;
+}
+
+.carrito-clear-btn:hover {
+    box-shadow: 0 0px 20px rgba(255, 0, 0, 0.822);
+    background-color: #ff4c4c;
+    color: #ffffff;
+    text-shadow: 0 0px 7px rgba(0, 0, 0, 0.4);
+}
+
+.carrito-clear-btn:active {
+    box-shadow: 0 0px 10px rgba(204, 0, 0, 0.541);
+    background-color: #cc0000;
+    color: #ffffff;
+}
+
+.error-container {
+    background-color: #ffdddd;
+    border: 1px solid #ff5c5c;
+    box-shadow: 0 0px 40px rgba(255, 68, 68, 0.556);
+    border-radius: 10px;
+    padding: 1rem;
+    min-width: 300px;
+    min-height: 75px;
+    margin: 4rem;
+}
+
+.error-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 900;
+    color: #252525;
+}
+
+
+.trash-button {
+    background-color: #ffffff;
+    background-image: none;
+    color: #252525;
+    border: none;
+    border-radius: 40px;
+    padding: 0.2rem;
+    font-family: 'Montserrat';
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: 0 0px 10px rgba(0, 0, 0, 0);
+    transition: background 0.1s ease;
+}
+
+.trash-button:hover {
+    box-shadow: 0 0px 20px rgba(255, 0, 0, 0.822);
+    background-color: #ff4c4c;
+    color: #ffffff;
+    text-shadow: 0 0px 7px rgba(0, 0, 0, 0.4);
+}
+
+.trash-button:active {
+    box-shadow: 0 0px 10px rgba(204, 0, 0, 0.541);
+    background-color: #cc0000;
+    color: #ffffff;
+}
+
+.checkout-container {
+    background-color: #f9f9f9;
+    border-left: none;
+    border-radius: 13px;
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.286);
+    padding: 1.5rem;
+    margin : 2rem;
+}

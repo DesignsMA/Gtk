@@ -7,8 +7,8 @@ SOURCES = leches.c leches_socket.c leches_dynamicLists.c producto.c $(RESOURCES_
 
 # Compilador y flags
 CC = gcc
-CFLAGS = -std=c11 `pkg-config --cflags gtk4 libsoup-3.0`
-LIBS = `pkg-config --libs gtk4 fontconfig glib-2.0 gmodule-export-2.0 libsoup-3.0` -Wl,--export-dynamic
+CFLAGS = -std=c11 `pkg-config --cflags gtk4 libsoup-3.0 json-glib-1.0`
+LIBS = `pkg-config --libs gtk4 fontconfig glib-2.0 gmodule-export-2.0 libsoup-3.0 json-glib-1.0` -Wl,--export-dynamic
 
 # Regla principal - limpia y recompila TODO
 all: clean-all $(TARGET)
@@ -49,8 +49,10 @@ clean-resources:
 rebuild: clean-all all
 
 # Ejecutar la aplicación
+# Target run que acepta parámetros
 run: $(TARGET)
 	./$(TARGET)
+
 
 # Depuración
 debug: CFLAGS += -g -DDEBUG

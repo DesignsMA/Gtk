@@ -4,6 +4,7 @@
             "name": "WSL",
             "includePath": [
                 "/usr/include/**",
+                "/usr/include/json-glib-1.0",
                 "/usr/include/libsoup-3.0",
                 "/usr/include/gtk-4.0",
                 "/usr/include/pango-1.0",

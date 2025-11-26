@@ -159,9 +159,6 @@
                                 <property name="halign">start</property>
                                 <property name="valign">center</property>
                                 <property name="label">Añadir al carrito</property>
-                                <style>
-                                    <class name="regular-text"/>
-                                </style>
                             </object>
                         </child>
                     </object>
