@@ -98,7 +98,7 @@
                             <child>
                                 <object class="GtkImage" id="cart_icon">
                                 <property name="icon-name">leche-cart-symbolic</property>
-                                <property name="pixel-size">20</property>
+                                <property name="pixel-size">35</property>
                                 </object>
                             </child>
 
@@ -109,10 +109,14 @@
                         <!-- Badge circular para el contador -->
                         <child type="overlay">
                             <object class="GtkLabel" id="cart_badge">
-                            <property name="halign">end</property>
+                            <property name="halign">center</property>
                             <property name="valign">start</property>
                             <property name="visible">false</property>
                             <property name="label">0</property>
+
+                            <style>
+                                <class name="cart-badge"/>
+                            </style>
                             </object>
                         </child>
                         </object>
@@ -400,12 +404,12 @@ Leches Toño</property>
                                                                                     <object class="GtkBox">
                                                                                         <property name="orientation">vertical</property>
                                                                                         <property name="hexpand">true</property>
-                                                                                        <property name="vexpand">true</property> <!-- ✅ IMPORTANTE -->
+                                                                                        <property name="vexpand">true</property>
                                                                                         <child>
                                                                                             <object class="GtkStack" id="products_stack">
                                                                                                 <property name="transition-type">crossfade</property>
                                                                                                 <property name="hexpand">true</property>
-                                                                                                <property name="vexpand">true</property> <!-- ✅ IMPORTANTE -->
+                                                                                                <property name="vexpand">true</property> 
                                                                                                 <child>
                                                                                                     <object class="GtkStackPage">
                                                                                                         <property name="name">list</property>

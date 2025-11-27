@@ -96,18 +96,19 @@ headerbar {
     -gtk-icon-transform: scale(2.3);
 }
 
-/* Badge circular del carrito */
-#cart_badge {
-  background-color: #e74c3c;
+.cart-badge {
+  background-color: #16d13f;
   color: white;
-  border-radius: 50%;
-  min-width: 18px;
-  min-height: 18px;
-  font-size: 10px;
-  font-weight: bold;
-  margin-top: -8px;
+  border-radius: 100%;
+  min-width: 20px;
+  min-height: 20px;
+  font-size: 1rem;
+  font-weight: 900;
+  font-family: 'Montserrat';
+  margin-top: 15px;
   padding: 0px;
-  border: 1.5px solid white;
+  border: none;
+  box-shadow: 0 0px 10px rgba(0, 255, 0, 0.336);
 }
 
 /* Para asegurar que el overlay ocupe todo el espacio */
@@ -116,13 +117,6 @@ headerbar {
   min-height: 40px;
 }
 
-#cart_badge.cart-has-items {
-  background-color: #e74c3c;
-}
-
-#cart_badge.cart-empty {
-  background-color: #95a5a6;
-}
 
 /* También ajustar el box que contiene el icono */
 #center_content {
@@ -785,7 +779,15 @@ GtkAspectFrame {
     background-color: #f9f9f9;
     border-left: none;
     border-radius: 13px;
+    color: #252525;
     box-shadow: -5px 0 25px rgba(0, 0, 0, 0.286);
     padding: 1.5rem;
     margin : 2rem;
+}
+
+.checkout-container > label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: #252525;
 }

@@ -357,7 +357,7 @@ int main() {
     // Configurar dirección
     server_addr.sin_family = AF_INET;
     server_addr.sin_addr.s_addr = INADDR_ANY;
-    server_addr.sin_port = 0;
+    server_addr.sin_port = htons(57277);
     
     // Bind
     if (bind(server_socket, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {

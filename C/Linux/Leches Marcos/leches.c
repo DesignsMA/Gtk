@@ -37,6 +37,7 @@ void finalizar_compra_cb (GtkWidget *widget, gpointer   user_data);
 void finalizar_carrito();
 void vaciar_carrito_cb (GtkWidget *widget, gpointer   user_data);
 void actualizar_ui_carrito();
+void actualizar_badge_carrito();
 void on_cantidad_cambiada(GtkSpinButton *spin_button, gpointer user_data);
 void on_eliminar_item(GtkButton *button, gpointer user_data);
 void actualizar_total_carrito();
@@ -199,6 +200,7 @@ activate ( GtkApplication *app,
     // hash string, valor struct CarritoItem*, compara con igualdad de strings
 
     cargar_carrito_archivo();
+    actualizar_badge_carrito();
 
     gtk_widget_set_visible (GTK_WIDGET (window), TRUE);
 }
@@ -802,6 +804,7 @@ void añadir_al_carrito_cb(GtkButton *button, gpointer user_data) {
     }
     
     actualizar_ui_carrito();
+    actualizar_badge_carrito();
 }
 
 void configurar_item_carrito(GtkWidget *cart_item, GtkBuilder *item_builder, CarritoItem *item) {
@@ -878,12 +881,14 @@ void on_cantidad_cambiada(GtkSpinButton *spin_button, gpointer user_data) {
     }
     
     actualizar_total_carrito();
+    actualizar_badge_carrito();
 
 }
 
 void on_eliminar_item(GtkButton *button, gpointer user_data) {
     const char *product_id = (const char *)user_data;
     eliminar_item_carrito(product_id);
+    actualizar_badge_carrito();
 }
 
 void eliminar_item_carrito(const char *product_id) {
@@ -920,6 +925,19 @@ int obtener_cantidad_total_carrito() {
     }
     
     return total;
+}
+
+void actualizar_badge_carrito() {
+    int cantidad_total = obtener_cantidad_total_carrito();
+    
+    if (cantidad_total > 0) {
+        char badge_text[10];
+        g_snprintf(badge_text, sizeof(badge_text), "%d", cantidad_total);
+        gtk_label_set_text(cart_badge, badge_text);
+        gtk_widget_set_visible(GTK_WIDGET(cart_badge), TRUE);
+    } else {
+        gtk_widget_set_visible(GTK_WIDGET(cart_badge), FALSE);
+    }
 }
 
 // Función actualizada para actualizar el total en la UI
@@ -1008,12 +1026,14 @@ void finalizar_compra_cb(GtkWidget *widget, gpointer user_data) {
     
     // Actualizar UI y guardar
     actualizar_ui_carrito();
+    gtk_widget_set_visible(GTK_WIDGET(cart_badge), FALSE);
     guardar_carrito_archivo();
 }
 
 
 void actualizar_ui_carrito() {
     // Obtener el contenedor del carrito (debes tenerlo definido en tu UI principal)
+
 
     GtkWidget *carrito_container = GTK_WIDGET(gtk_builder_get_object(builder, "carrito_products_list"));
     if (!carrito_container) {
@@ -1090,6 +1110,7 @@ void vaciar_carrito_cb (GtkWidget *widget, gpointer   user_data) {
     g_print("Vaciando carrito...\n");
     g_hash_table_remove_all(carrito);
     actualizar_ui_carrito();
+    actualizar_badge_carrito();
     guardar_carrito_archivo();
 }
 
